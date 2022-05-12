@@ -16,7 +16,7 @@ public class BackwardArrayItTest {
     }
 
     @Test
-    public void testNext() {
+    public void testNext(){
         BackwardArrayIt in = new BackwardArrayIt(new int[] {1, 2, 3, 4});
         assertThat(in.next(), is(4));
         assertThat(in.next(), is(3));
