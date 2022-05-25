@@ -54,7 +54,6 @@ public class MatrixItTest {
         assertThat(it.next(), is(2));
     }
 
-
     @Test
     public void whenEmpty() {
         int[][] in = {{}};
