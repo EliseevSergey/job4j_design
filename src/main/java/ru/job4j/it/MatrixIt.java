@@ -19,25 +19,13 @@ public class MatrixIt implements Iterator<Integer> {
             row++;
             column = 0;
         }
-        if (data[row].length <= column && data[row].length > 0) {
-            row++;
-            column = 0;
-            rsl = true;
-        }
-        if (data[row].length > column) {
-            rsl = true;
-        }
-        return rsl;
+        return data[row].length > column;
     }
 
         @Override
     public Integer next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
-            }
-            if (column >= data[row].length) {
-                column = 0;
-                row++;
             }
             return data[row][column++];
         }
