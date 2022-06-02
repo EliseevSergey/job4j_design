@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class ArrayIt implements Iterator {
     private final int[] data;
-    private int point = 0;
+    private int point;
 
     public ArrayIt(int[] data) {
         this.data = data;
