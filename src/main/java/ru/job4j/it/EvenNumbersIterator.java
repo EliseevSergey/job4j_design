@@ -18,7 +18,7 @@ public class EvenNumbersIterator implements Iterator {
         if (index == data.length) {
             return false;
         }
-        while (data[index] % 2 != 0 && index < data.length - 1) {
+        while (((data[index] % 2) != 0) && (index < (data.length - 2))) {
             index++;
         }
         return data[index] % 2 == 0;

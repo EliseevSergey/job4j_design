@@ -16,7 +16,7 @@ public class EvenIteratorTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void shouldReturnEvenNumbersSequentially() {
+    public void returnEvenNumbersSequentially() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
         assertThat(it.hasNext(), is(true));
@@ -37,13 +37,19 @@ public class EvenIteratorTest {
     }
 
     @Test
-    public void  shouldReturnFalseIfNoAnyEvenNumbers() {
+    public void  returnFalseIfNoAnyEvenNumbers() {
         it = new EvenNumbersIterator(new int[]{1});
         assertThat(it.hasNext(), is(false));
     }
 
     @Test
-    public void allNumbersAreEven() {
+    public void trueSingleEven() {
+        it = new EvenNumbersIterator(new int[]{10});
+        assertThat(it.hasNext(), is(true));
+    }
+
+    @Test
+    public void allNumbersEven() {
         it = new EvenNumbersIterator(new int[] {2, 4, 6});
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
