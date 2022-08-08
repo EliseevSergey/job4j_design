@@ -33,9 +33,9 @@ public class FlatMapTest {
                 List.of(1, 2, 3).iterator()
         ).iterator();
         FlatMap<Integer> flat = new FlatMap<>(data);
-        assertThat(flat.next(), is (1));
-        assertThat(flat.next(), is (2));
-        assertThat(flat.next(), is (3));
+        assertThat(flat.next(), is(1));
+        assertThat(flat.next(), is(2));
+        assertThat(flat.next(), is(3));
     }
 
     @Test
