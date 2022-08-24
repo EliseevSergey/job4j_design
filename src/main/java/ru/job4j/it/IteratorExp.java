@@ -8,9 +8,9 @@ public class IteratorExp {
         List<Integer> list = List.of(1, 2, 3, 4, 5);
         Iterator<Integer> iterator = list.iterator();
         /**
-        //System.out.println(iterator.next());
-        //System.out.println(iterator.next());
-        /*while (iterator.hasNext()) {
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }*/
 
