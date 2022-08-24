@@ -11,9 +11,6 @@ public class GenericUsage {
         String o = (String) list.get(1);
         list.add(new Person("Zahar", 31, new Date(1988 - 05 - 12)));
         System.out.println(list.size());
-//        for (String one : list) {
-//            System.out.println(one);
-//        }
         List<Integer> l = List.of(1, 2, 3, 4);
         new GenericUsage().printRsl(l);
 

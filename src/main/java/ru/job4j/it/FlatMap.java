@@ -27,8 +27,8 @@ public class FlatMap<T> implements Iterator<T> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-
-        //return data.next().next();
+        /**return data.next().next();
+         */
         return cursor.next();
     }
 
@@ -40,7 +40,7 @@ public class FlatMap<T> implements Iterator<T> {
         ).iterator();
         FlatMap<Integer> flat = new FlatMap<>(data);
         System.out.println(flat.next());
-        /*while (flat.hasNext()) {
+        /**while (flat.hasNext()) {
             System.out.println(flat.next());
         }*/
     }
