@@ -34,12 +34,10 @@ class SimpleModelTest {
     void  checkWordMessage() {
         SimpleModel sm = new SimpleModel();
         String word = "name";
-        String bla = "blaa";
         int number = 5;
         assertThatThrownBy(() -> sm.setName(word, number))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
-                .hasMessageContaining(bla, number)
                 .hasMessageContaining("name");
     }
 }
