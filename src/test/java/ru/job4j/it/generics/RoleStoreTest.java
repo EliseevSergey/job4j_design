@@ -1,6 +1,8 @@
 package ru.job4j.it.generics;
 
 import org.junit.Test;
+import ru.job4j.generics.Role;
+import ru.job4j.generics.RoleStore;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

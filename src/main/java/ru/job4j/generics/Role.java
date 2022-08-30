@@ -1,4 +1,4 @@
-package ru.job4j.it.generics;
+package ru.job4j.generics;
 
 public class Role extends Base {
     private final String name;

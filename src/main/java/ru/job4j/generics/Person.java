@@ -1,4 +1,4 @@
-package ru.job4j.it.generics;
+package ru.job4j.generics;
 
 import java.util.Date;
 
