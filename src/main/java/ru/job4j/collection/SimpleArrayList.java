@@ -3,7 +3,7 @@ package ru.job4j.collection;
 import java.util.Iterator;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
-    private T[] container;
+    private Object[] container;
     private int size;
     private int modCount;
 
@@ -11,9 +11,20 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    @Override
-    public void add(T value) {
+    private void add(T value, Object[] container, int s) {
+        if (s == container.length) {
+            container = grow();
+        }
+        container[s] = value;
+        size++;
     }
+
+    @Override
+    public boolean add(T value) {
+        modCount++;
+        add(value, container, size);
+        return true;
+    };
 
     @Override
     public T set(int index, T newValue) {
@@ -32,7 +43,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
