@@ -14,14 +14,26 @@ class SimpleArrayListTest {
 
     @BeforeEach
     public void initData() {
-        list = new SimpleArrayList<>(3);
+        list = new SimpleArrayList<>(2);
         list.add(1);
         list.add(2);
         list.add(3);
+        list.add(4);
+        list.add(5);
+        list.add(6);
+        list.add(7);
+        list.add(8);
     }
 
-    @Test
-    void add() {
+/*    @Test
+    void checkIterator() {
         assertThat(list.size()).isEqualTo(3);
+        assertThat(list).hasSize(3);
+    }*/
+
+    @Test
+    void whenAddThenSizeIncrease() {
+        list.add(4);
+        assertThat(list.size()).isEqualTo(9);
     }
 }

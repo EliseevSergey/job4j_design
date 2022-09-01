@@ -1,5 +1,6 @@
 package ru.job4j.collection;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -12,25 +13,30 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    private void add(T value, Object[] container, int s) {
+    private void add(T value, Object[] box, int s) {
+        System.out.println("BEFORE s: " + s + ". Container.length BEFORE:" + container.length);
         if (s == container.length) {
             container = grow();
+            System.out.println("Inside>>>: " + container.length);
         }
         container[s] = value;
-        size++;
+        size = s + 1;
+        System.out.println("AFTER s: " + s);
     }
 
     @Override
     public boolean add(T value) {
         modCount++;
         add(value, container, size);
-        System.out.println(modCount);
-        System.out.println(size);
+        System.out.println("modCount: " + modCount);
+        System.out.println("size: " + size);
+        System.out.println("container.length: " + container.length + " END________");
         return true;
     };
 
     private Object[] grow() {
-        Object[] doubledContainer = Arrays.copyOf(container, container.length * 2);
+       Object[] doubledContainer = Arrays.copyOf(container, container.length * 2);
+       System.out.println("DB lenght: " + doubledContainer.length);
     return doubledContainer;
     }
 
