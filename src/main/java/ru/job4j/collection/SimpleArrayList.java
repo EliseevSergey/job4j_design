@@ -1,11 +1,12 @@
 package ru.job4j.collection;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
     private Object[] container;
     private int size;
-    private int modCount;
+    public int modCount;
 
     public SimpleArrayList(int capacity) {
         this.container = (T[]) new Object[capacity];
@@ -23,8 +24,15 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     public boolean add(T value) {
         modCount++;
         add(value, container, size);
+        System.out.println(modCount);
+        System.out.println(size);
         return true;
     };
+
+    private Object[] grow() {
+        Object[] doubledContainer = Arrays.copyOf(container, container.length * 2);
+    return doubledContainer;
+    }
 
     @Override
     public T set(int index, T newValue) {
@@ -59,5 +67,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 return null;
             }
         };
+    }
+
+    public int count() {
+        return modCount;
     }
 }

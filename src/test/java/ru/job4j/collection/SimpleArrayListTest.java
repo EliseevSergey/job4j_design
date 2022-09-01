@@ -23,18 +23,5 @@ class SimpleArrayListTest {
     @Test
     void add() {
         assertThat(list.size()).isEqualTo(3);
-        List<Integer> mlist = new ArrayList<>();
-        System.out.println(mlist);
-    }
-
-    public static void main(String[] args) {
-        int[] array = new int[] {1, 1, 1};
-        System.out.println("array length: " + array.length);
-        List<Integer> list = new ArrayList<>();
-        System.out.println("size!!! " + list.size());
-        list.add(1);
-        list.add(1);
-        list.add(1);
-        System.out.println("list size: " + list.size());
     }
 }
