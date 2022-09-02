@@ -38,7 +38,6 @@ class SimpleArrayListTest {
     @Test
     void checkIterator() {
         assertThat(list.size()).isEqualTo(3);
-        //assertThat(list).hasSize(3);
     }
 
     @Test
