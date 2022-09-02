@@ -2,13 +2,11 @@ package ru.job4j.collection;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleArrayListTest {
     private SimpleList<Integer> list;
@@ -19,6 +17,22 @@ class SimpleArrayListTest {
         list.add(1);
         list.add(2);
         list.add(3);
+    }
+
+    @Test
+    void whenGetIteratorTwiceThenStartAlwaysFromBeginning() {
+        assertThat(list.iterator().next()).isEqualTo(1);
+        assertThat(list.iterator().next()).isEqualTo(1);
+    }
+
+    @Test
+    void whenCheckIterator() {
+        Iterator<?> iterator = list.iterator();
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(1);
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.next()).isEqualTo(3);
+        assertThat(iterator.hasNext()).isFalse();
     }
 
     @Test
@@ -92,5 +106,48 @@ class SimpleArrayListTest {
     void whenSetByIncorrectIndexThenGetException() {
         assertThatThrownBy(() -> list.set(5, 22))
                 .isInstanceOf(IndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void whenGetIteratorFromEmptyListThenHasNextReturnFalse() {
+        list = new SimpleArrayList<>(5);
+        assertThat(list.iterator().hasNext()).isFalse();
+    }
+
+    @Test
+    void whenGetIteratorFromEmptyListThenNextThrowException() {
+        list = new SimpleArrayList<>(5);
+        assertThatThrownBy(list.iterator()::next)
+                .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    void whenAddAfterGetIteratorThenMustBeException() {
+        Iterator<Integer> iterator = list.iterator();
+        list.add(4);
+        assertThatThrownBy(iterator::next)
+                .isInstanceOf(ConcurrentModificationException.class);
+    }
+
+    @Test
+    void whenRemoveAfterGetIteratorThenMustBeException() {
+        Iterator<Integer> iterator = list.iterator();
+        list.remove(0);
+        assertThatThrownBy(iterator::next)
+                .isInstanceOf(ConcurrentModificationException.class);
+    }
+
+    @Test
+    void whenSetAfterGetIteratorThenMustBeOk() {
+        Iterator<Integer> iterator = list.iterator();
+        list.set(0, 22);
+        assertThat(iterator.next()).isEqualTo(22);
+    }
+
+    @Test
+    void whenNoPlaceThenMustIncreaseCapacity() {
+        assertThat(list.size()).isEqualTo(3);
+        IntStream.range(3, 10).forEach(v -> list.add(v));
+        assertThat(list.size()).isEqualTo(10);
     }
 }

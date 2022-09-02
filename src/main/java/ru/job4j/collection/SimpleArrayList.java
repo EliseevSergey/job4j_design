@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
     private T[] container;
@@ -15,30 +12,22 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     }
 
     private void add(T value, Object[] box, int s) {
-        //System.out.println("BEFORE s: " + s + ". Container.length BEFORE:" + container.length);
         if (s == container.length) {
             container = grow();
-            //System.out.println("Inside>>>: " + container.length);
         }
         container[s] = value;
         size = s + 1;
-        //System.out.println("AFTER s: " + s);
     }
 
     @Override
     public boolean add(T value) {
         modCount++;
         add(value, container, size);
-        //System.out.println("modCount: " + modCount);
-        //System.out.println("size: " + size);
-        //System.out.println("container.length: " + container.length + " END________");
         return true;
-    };
+    }
 
     private T[] grow() {
-       T[] doubledContainer = Arrays.copyOf(container, container.length * 2);
-       //System.out.println("DB lenght: " + doubledContainer.length);
-    return doubledContainer;
+        return Arrays.copyOf(container, container.length * 2);
     }
 
     @Override
@@ -61,6 +50,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                  container.length - index - 1
                  );
          size = size - 1;
+        modCount++;
         return remItem;
     }
 
@@ -77,10 +67,15 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public Iterator<T> iterator() {
+        int expectedModCount = modCount;
         return new Iterator<T>() {
+            int point = 0;
             @Override
             public boolean hasNext() {
-            return size < container.length;
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+            return point < size;
             }
 
             @Override
@@ -88,7 +83,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 if (!hasNext())  {
                     throw new NoSuchElementException();
                 }
-                return container[size + 1];
+                return container[point++];
             }
         };
     }
