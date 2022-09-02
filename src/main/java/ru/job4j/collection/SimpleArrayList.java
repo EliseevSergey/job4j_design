@@ -87,8 +87,4 @@ public class SimpleArrayList<T> implements SimpleList<T> {
             }
         };
     }
-
-    public int count() {
-        return modCount;
-    }
 }
