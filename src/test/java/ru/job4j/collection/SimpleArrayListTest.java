@@ -2,6 +2,7 @@ package ru.job4j.collection;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -148,5 +149,12 @@ class SimpleArrayListTest {
         assertThat(list.size()).isEqualTo(3);
         IntStream.range(3, 10).forEach(v -> list.add(v));
         assertThat(list.size()).isEqualTo(10);
+    }
+
+    @Test
+    void whenZeroLength() {
+        SimpleArrayList emptyList = new SimpleArrayList<>(0);
+        emptyList.add(1);
+        assertThat(emptyList.get(0)).isEqualTo(1);
     }
 }
