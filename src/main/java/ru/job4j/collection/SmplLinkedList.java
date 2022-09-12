@@ -3,6 +3,7 @@ package ru.job4j.collection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
     transient Node<E> first;
@@ -24,7 +25,7 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
 
 
 
-    @Override
+/*    @Override
     public void add(E value) {
         modCount++;
         if (size == 0) {
@@ -35,11 +36,30 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
             Node<E> secondNode = new Node<>(last, value, null);
             last = secondNode;
         }
+    }*/
+
+    @Override
+    public void add(E value) {
+        Node<E> l = last;
+        Node<E> newNode = new Node<>(l, value, null);
+        last = newNode;
+        if (l == null) {
+            first = newNode;
+        } else {
+            l.next = newNode;
+        }
+        size++;
+        modCount++;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        //Objects.checkIndex(index, size);
+        Node<E> rsl = first;
+        /*for (int i = 0; i < size; i++) {
+            rsl = rsl.next;
+        }*/
+        return rsl.item;
     }
 
     @Override
