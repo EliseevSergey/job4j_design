@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
     transient Node<E> first;
@@ -23,21 +20,6 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
         }
     }
 
-
-
-/*    @Override
-    public void add(E value) {
-        modCount++;
-        if (size == 0) {
-            Node<E> firstNode = new Node<>(null, value, null);
-            first = firstNode;
-            last = firstNode;
-        } else {
-            Node<E> secondNode = new Node<>(last, value, null);
-            last = secondNode;
-        }
-    }*/
-
     @Override
     public void add(E value) {
         Node<E> l = last;
@@ -54,16 +36,41 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
 
     @Override
     public E get(int index) {
-        //Objects.checkIndex(index, size);
-        Node<E> rsl = first;
-        /*for (int i = 0; i < size; i++) {
-            rsl = rsl.next;
-        }*/
-        return rsl.item;
+        Objects.checkIndex(index, size);
+        Node<E> succ = first;
+        for (int i = 0; i < index; i++) {
+                succ = succ.next;
+        }
+        return succ.item;
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<E> iterator() {
+        int expectedModCount = modCount;
+        return new Iterator<E>() {
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return index < size;
+            }
+
+            @Override
+            public E next() {
+                Node<E> pointer = first;
+                E rsl = pointer.item;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (index > 0) {
+                    rsl = pointer.next.item;
+                }
+                pointer = pointer.next;
+                index++;
+                return rsl;
+            }
+        };
     }
 }
