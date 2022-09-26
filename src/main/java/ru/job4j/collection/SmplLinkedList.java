@@ -11,7 +11,7 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
         E item;
         Node<E> next;
 
-        public Node(E element,  Node<E> next) {
+        public Node(E element, Node<E> next) {
             this.item = element;
             this.next = next;
         }
@@ -38,7 +38,7 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
         Objects.checkIndex(index, size);
         Node<E> succ = head;
         for (int i = 0; i < index; i++) {
-                succ = succ.next;
+            succ = succ.next;
         }
         return succ.item;
     }
@@ -46,6 +46,7 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
     @Override
     public Iterator<E> iterator() {
         int expectedModCount = modCount;
+
         return new Iterator<E>() {
             @Override
             public boolean hasNext() {
@@ -64,8 +65,6 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
                 if (head.next != null) {
                     head = head.next;
                     //rsl = head.item;
-                } else {
-                    head = null;
                 }
                 return rsl;
             }
