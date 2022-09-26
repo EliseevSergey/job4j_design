@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Iterator;
-import static org.hamcrest.Matchers.*;
 
 class SmplLinkedListTest {
     private SmplLinkedList<Integer> list;
@@ -22,7 +21,6 @@ class SmplLinkedListTest {
         assertThat(list).hasSize(2);
         list.add(3);
         list.add(4);
-        System.out.println(list.size);
         assertThat(list).hasSize(4);
     }
 
@@ -46,12 +44,16 @@ class SmplLinkedListTest {
     void whenAddIterHasNextTrue() {
         Iterator<Integer> it = list.iterator();
         assertThat(it.hasNext()).isTrue();
+        assertThat(it.hasNext()).isTrue();
     }
 
     @Test
     void whenAddIterNextOne() {
         Iterator<Integer> it = list.iterator();
         assertThat(it.next()).isEqualTo(1);
+        assertThat(it.hasNext()).isTrue();
+        assertThat(it.next()).isEqualTo(2);
+        assertThat(it.hasNext()).isFalse();
     }
 
     @Test
@@ -64,6 +66,7 @@ class SmplLinkedListTest {
     @Test
     void whenAddIterMultiHasNextTrue() {
         Iterator<Integer> it = list.iterator();
+        assertThat(it.hasNext()).isTrue();
         assertThat(it.hasNext()).isTrue();
         assertThat(it.hasNext()).isTrue();
     }
@@ -84,11 +87,19 @@ class SmplLinkedListTest {
         assertThat(first.next()).isEqualTo(2);
         assertThat(first.hasNext()).isFalse();
 
-        /*Iterator<Integer> second = list.iterator();
+        Iterator<Integer> second = list.iterator();
         assertThat(second.hasNext()).isTrue();
         assertThat(second.next()).isEqualTo(1);
         assertThat(second.hasNext()).isTrue();
         assertThat(second.next()).isEqualTo(2);
-        assertThat(second.hasNext()).isFalse();*/
+        assertThat(second.hasNext()).isFalse();
+    }
+
+    @Test
+    void whenListOneElement() {
+        var one = new SmplLinkedList<Integer>();
+        one.add(666);
+        Iterator<Integer> iterator = one.iterator();
+        assertThat(iterator.next()).isEqualTo(666);
     }
 }

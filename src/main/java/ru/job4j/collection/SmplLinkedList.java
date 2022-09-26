@@ -46,14 +46,14 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
     @Override
     public Iterator<E> iterator() {
         int expectedModCount = modCount;
-
         return new Iterator<E>() {
+            Node<E> pointer = head;
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return head != null;
+                return pointer != null;
             }
 
             @Override
@@ -61,11 +61,8 @@ public class SmplLinkedList<E> implements SmplLinkedListIterface<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E rsl = head.item;
-                if (head.next != null) {
-                    head = head.next;
-                    //rsl = head.item;
-                }
+                E rsl = pointer.item;
+                pointer = pointer.next;
                 return rsl;
             }
         };
