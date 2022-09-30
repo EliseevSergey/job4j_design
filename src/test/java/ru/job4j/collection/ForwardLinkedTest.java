@@ -56,4 +56,29 @@ class ForwardLinkedTest {
         assertThat(it.next()).isEqualTo(4);
         assertThatThrownBy(it :: next).isInstanceOf(NoSuchElementException.class);
     }
+
+    @Test
+    void whenSize0ThenReturnFalse() {
+        var linkedRev = new ForwardLinked<>();
+        assertThat(linkedRev.revert()).isFalse();
+    }
+
+    @Test
+    void whenSize1ThenReturnFalse() {
+        var linkedRev = new ForwardLinked<>();
+        linkedRev.add(1);
+        assertThat(linkedRev.revert()).isFalse();
+    }
+
+    @Test
+    void whenAddAndRevertTrue() {
+        var linkedRev = new ForwardLinked<>();
+        linkedRev.add(1);
+        linkedRev.add(2);
+        linkedRev.add(3);
+        linkedRev.add(4);
+        assertThat(linkedRev).containsSequence(1, 2, 3, 4);
+        assertThat(linkedRev.revert()).isTrue();
+        assertThat(linkedRev).containsSequence(4, 3, 2, 1);
+    }
 }
