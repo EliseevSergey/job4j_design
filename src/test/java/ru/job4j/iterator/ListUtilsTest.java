@@ -70,6 +70,18 @@ class ListUtilsTest {
     }
 
     @Test
+    void whenRemoveAllDoubleLoop() {
+        input.add(2);
+        input.add(4);
+        input.add(5);
+        input.add(6);
+        List<Integer> delete = new ArrayList<Integer>(Arrays.asList(4, 5, 666, 777, 9999));
+        ListUtils.removeAllDoubleLoop(input, delete);
+        assertThat(input).hasSize(4)
+                .containsSequence(1, 3, 2, 6);
+    }
+
+    @Test
     void whenRemoveAll() {
         input.add(2);
         input.add(4);
@@ -80,5 +92,4 @@ class ListUtilsTest {
         assertThat(input).hasSize(4)
                 .containsSequence(1, 3, 2, 6);
     }
-
 }

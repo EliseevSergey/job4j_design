@@ -46,7 +46,7 @@ public class ListUtils {
         }
     }
 
-    public static <T> void removeAll(List<T> list, List<T> elements) {
+    public static <T> void removeAllDoubleLoop(List<T> list, List<T> elements) {
         ListIterator<T> itr = list.listIterator();
         while (itr.hasNext()) {
             T itemToCheckMain = itr.next();
@@ -58,4 +58,15 @@ public class ListUtils {
             }
         }
     }
-}
+
+    public static <T> void removeAll(List<T> list, List<T> elements) {
+        ListIterator<T> itr = list.listIterator();
+        while (itr.hasNext()) {
+            T itemToCheckMain = itr.next();
+            if (elements.contains(itemToCheckMain)) {
+                    itr.remove();
+                }
+            }
+        }
+    }
+
