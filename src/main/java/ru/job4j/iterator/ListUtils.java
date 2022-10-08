@@ -6,19 +6,13 @@ import java.util.function.Predicate;
 public class ListUtils {
     public static <T> void addBefore(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-        ListIterator<T> itr = list.listIterator();
-        for (int i = 0; i < index; i++) {
-            itr.next();
-        }
+        ListIterator<T> itr = list.listIterator(index);
         itr.add(value);
     }
 
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-        ListIterator<T> itr = list.listIterator();
-        for (int i = 0; i == index; i++) {
-            itr.next();
-        }
+        ListIterator<T> itr = list.listIterator(index + 1);
         itr.add(value);
     }
 
