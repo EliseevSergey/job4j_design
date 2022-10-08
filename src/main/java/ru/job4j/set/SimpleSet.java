@@ -11,11 +11,10 @@ public class SimpleSet<T> implements Set<T> {
     @Override
     public boolean add(T value) {
         boolean rsl = true;
-        Iterator<T> itr = set.iterator();
-        while (itr.hasNext()) {
-            if (Objects.equals(itr.next(), value)) {
-                rsl = false;
-                break;
+        for (int index = 0; index < set.size(); index++) {
+            if (Objects.equals(set.get(index), value)) {
+            rsl = false;
+            break;
             }
         }
         if (rsl) {
@@ -24,12 +23,12 @@ public class SimpleSet<T> implements Set<T> {
         return rsl;
     }
 
+
     @Override
     public boolean contains(T value) {
         boolean rsl = false;
-        Iterator<T> itr = set.iterator();
-        while (itr.hasNext()) {
-            if (Objects.equals(itr.next(), value)) {
+        for (int index = 0; index < set.size(); index++) {
+            if (Objects.equals(set.get(index), value)) {
                 rsl = true;
                 break;
             }
