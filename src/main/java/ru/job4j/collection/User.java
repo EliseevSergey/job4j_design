@@ -12,4 +12,8 @@ public class User {
         this.children = children;
         this.birthday = birthday;
     }
+
+    public static void main(String[] args) {
+        User ivan = new User("ivan", 2, );
+    }
 }
