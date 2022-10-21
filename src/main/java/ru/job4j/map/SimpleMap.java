@@ -10,7 +10,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private int capacity = 8;
     private int count = 0;
     private int modCount = 0;
-    private MapEntry<K, V> [] table = new MapEntry[capacity];
+    private MapEntry<K, V>[] table = new MapEntry[capacity];
 
 
     public int size() {
@@ -20,11 +20,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         boolean rsl = true;
-        MapEntry<K, V> target = table[indexFor(hash(key.hashCode()))];
-        if (target == null) {
-                target = new MapEntry<>(key, value);
+        int index = indexFor(hash(key.hashCode()));
+        if (table[index] == null) {
+                table[index] = new MapEntry<>(key, value);
                 modCount++;
                 count++;
+            System.out.println(this.count);
             } else {
                 rsl = false;
             }
@@ -38,7 +39,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private  int indexFor(int hash) {
         int index = hash & (capacity - 1);
-        System.out.println("hash: " + hash + ". индекс: " + index);
+        System.out.println("hash: " + hash + ". index: " + index);
         return index;
     }
 
