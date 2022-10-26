@@ -14,25 +14,23 @@ class SimpleMapTest {
         map.put(2, "2");
         map.put(3, "3");
         map.put(4, "4");
+        System.out.println("INPUTINPUTINPUT");
     }
 
-    /*@Test
+    @Test
     void checkSimpleIterator() {
-        assertThat(map).hasSize(4).contains(1, 2, 3, 4);
-    }*/
-
-    /*@Test
-    void checkSimpleIterator() {
-        assertThat(map).contains(1);
+        assertThat(map)
+                .hasSize(4)
+                .contains(1, 2, 3, 4);
     }
-    */
 
     @Test
     void whenCheckGet() {
         assertThat(map.get(1)).isEqualTo("1");
-        //assertThat(map).hasSize(4);
-        //assertThat(map.get(5)).isNull();
-        //assertThat(map).hasSize(4);
+        assertThat(map.get(2)).isEqualTo("2");
+        assertThat(map).hasSize(4);
+        assertThat(map.get(5)).isNull();
+        assertThat(map).hasSize(4);
     }
 
     @Test
@@ -40,10 +38,10 @@ class SimpleMapTest {
         assertThat(map.put(0, "0")).isTrue();
         assertThat(map).hasSize(5);
         assertThat(map.put(8, "8")).isFalse();
-        //assertThat(map).hasSize(5);
+        assertThat(map).hasSize(5);
         assertThat(map.put(1, "10")).isFalse();
         assertThat(map.get(1)).isEqualTo("1");
-        //assertThat(map).hasSize(5);
+        assertThat(map).hasSize(5);
     }
 
     @Test
@@ -144,7 +142,7 @@ class SimpleMapTest {
 
     @Test
     void whenCheckGetZeroAndNull() {
-        SimpleMap<Integer, String> map = new SimpleMap<>();
+        SimpleMap<Integer, String> mapA = new SimpleMap<>();
         assertThat(map.put(null, "0000")).isTrue();
         assertThat(map.get(0)).isNull();
     }

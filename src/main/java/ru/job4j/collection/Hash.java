@@ -17,9 +17,16 @@ public class Hash {
     }
 
     public static void main(String[] args) {
-        System.out.println(Hash.binary(1751151001));
-        System.out.println(Hash.binary(8 & 7));
-        System.out.println(Hash.binary(0 & 7));
+        /*System.out.println(Hash.binary(80));
+        System.out.println(Hash.binary(80 >>> 1));*/
+        System.out.println(Hash.binary(1137));
+        System.out.println(Hash.binary(7));
+
+
+
+
+
+        System.out.println(Hash.binary((72 & 7)));
         System.out.println("line");
         System.out.println(Hash.binary(255));
         System.out.println(Hash.binary(255 >> 4));

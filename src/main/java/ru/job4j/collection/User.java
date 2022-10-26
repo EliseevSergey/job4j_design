@@ -55,7 +55,8 @@ public class User {
 
         map.put(first, new Object());
         map.put(second, new Object());
-
+        map.put(null, new Object());
+        map.keySet();
         System.out.println(first.equals(second));
         System.out.println(first.birthday.equals(second.birthday));
         System.out.println(hashCode1 == hashCode2);
