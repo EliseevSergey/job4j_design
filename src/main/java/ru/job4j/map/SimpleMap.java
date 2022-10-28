@@ -26,7 +26,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private int hash(int hashCode) {
         int before = hashCode;
         System.out.println("before " + before);
-        int after = before >>> 7;
+        int after = before >>> capacity - 1;
         System.out.println("after " + after);
         int rsl = before ^ after;
         System.out.println("rsl AFTER AFTER " + rsl);
@@ -64,7 +64,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
         public void setKey(K key){
             this.key = key;
         }
-
         public void setValue(V value){
             this.value = value;
         }
@@ -106,7 +105,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 table[index] = in;
                 modCount++;
                 count++;
-                System.out.println("PUT index " + index + ". PUT count " + count + ". keyHash " + keyHash + ". hastable " + hashTable);
+                System.out.println(" LOAD  >>>" + (float)((float) count / (float) capacity));
+                    if ((float) count / (float) capacity >= LOAD_FACTOR) {
+                    expand();
+                    }
+                System.out.println("KEY " + key + " .PUT index " + index + ". PUT count " + count + ". keyHash " + keyHash + ". hastable " + hashTable + " . capacity " + capacity) ;
             } else {
             rsl = false;
         }
@@ -120,21 +123,30 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }*/
 
     private void expand() {
-    }
+        int capacityNew = capacity * 2;
+        System.out.println("CAPACITY " + capacity);
+        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();
+        mapEnlarged.capacity = capacityNew;
+        Iterator<K> itr = iterator();
+        while (itr.hasNext()) {
+                K key = itr.next();
+            mapEnlarged.put(key, get(key));
+            }
+        this.table = mapEnlarged.table;
+        this.capacity = capacityNew;
+        }
 
     @Override
     public V get(K key) {
-        V rsl;
-        int index;
-        if (key == null) {
-            index = 0;
-        } else {
-            index = indexFor(hash(key.hashCode()));
-            System.out.println(index);
+        V rsl = null;
+        MapEntry<K, V> out = new MapEntry<>(key, rsl);
+        int keyHash = out.hashCode();
+        int hashTable = hash(keyHash);
+        int index = indexFor(hashTable);
+        if ((key != null) && (table[index] != null) && (table[index].hashCode() == keyHash) && (key.equals(table[index].getKey()))) {
+            rsl = table[index].getValue();
         }
-        if (table[index] == null) {
-            rsl = null;
-        } else {
+        if ((key == null) && (table[index] != null)  && (table[index].getKey() == null)) {
             rsl = table[index].getValue();
         }
         return rsl;
@@ -142,37 +154,37 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean remove(K key) {
-        boolean rsl = true;
-        if (!keyList().contains(key)) {
-                rsl = false;
-        } else {
-            int indexToDel = 0;
-            if (key != null) {
-                indexToDel = indexFor(hash(key.hashCode()));
-            }
+        boolean rsl = false;
+        MapEntry<K, V> toDel = new MapEntry<>(key, null);
+        int keyHash = toDel.hashCode();
+        int hashTable = hash(keyHash);
+        int indexToDel = indexFor(hashTable);
+
+        if ((key != null) && (table[indexToDel] != null) && (table[indexToDel].hashCode() == keyHash) && (key.equals(table[indexToDel].getKey()))) {
             table[indexToDel].setValue(null);
             table[indexToDel].setKey(null);
             table[indexToDel] = null;
             count--;
             modCount++;
+            rsl = true;
             System.out.println("remove + count" + count);
+            }
+        if ((key == null) && (table[indexToDel] != null)  && (table[indexToDel].getKey() == null)) {
+            table[indexToDel].setValue(null);
+            table[indexToDel].setKey(null);
+            table[indexToDel] = null;
+            count--;
+            modCount++;
+            rsl = true;
         }
         return rsl;
     }
-
-    /*public Set<K> keySet() {
-        return Arrays.stream(table)
-                .filter(Objects::nonNull)
-                .map(item -> item.getKey())
-                .collect(Collectors.toSet());
-    }*/
-
 
     @Override
     public Iterator<K> iterator() {
         int expectedModCount = modCount;
         Iterator<K> itrKeyList = keyList().iterator();
-        int size = keyList().size();
+        //int size = keyList().size();
         return new Iterator<K>() {
             int point = 0;
             @Override
@@ -180,7 +192,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return point < size;
+                return point < count;
             }
 
             @Override
@@ -194,7 +206,4 @@ public class SimpleMap<K, V> implements Map<K, V> {
             }
         };
     }
-
-
-
 }
