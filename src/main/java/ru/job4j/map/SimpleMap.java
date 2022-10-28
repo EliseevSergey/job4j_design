@@ -25,11 +25,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private int hash(int hashCode) {
         int before = hashCode;
-        System.out.println("before " + before);
+        //System.out.println("before " + before);
         int after = before >>> capacity - 1;
-        System.out.println("after " + after);
+        //System.out.println("after " + after);
         int rsl = before ^ after;
-        System.out.println("rsl AFTER AFTER " + rsl);
+        //System.out.println("rsl AFTER AFTER " + rsl);
         return rsl;
     }
 
@@ -97,6 +97,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         boolean rsl = true;
+        System.out.println(" LOAD  >>> " + (float)((float) count / (float) capacity));
+        if ((float) count / (float) capacity >= LOAD_FACTOR) {
+            System.out.println(" вызван Экспанд****************************");
+            expand();
+        }
         MapEntry<K, V> in = new MapEntry<>(key, value);
         int keyHash = in.hashCode();
         int hashTable = hash(keyHash);
@@ -105,11 +110,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 table[index] = in;
                 modCount++;
                 count++;
-                System.out.println(" LOAD  >>>" + (float)((float) count / (float) capacity));
-                    if ((float) count / (float) capacity >= LOAD_FACTOR) {
-                    expand();
-                    }
-                System.out.println("KEY " + key + " .PUT index " + index + ". PUT count " + count + ". keyHash " + keyHash + ". hastable " + hashTable + " . capacity " + capacity) ;
+                System.out.println("KEY " + key + " .PUT index " + index + ". PUT count " + count + ". keyHash " + keyHash + ". hastable " + hashTable + " . capacity " + this.capacity);
             } else {
             rsl = false;
         }
@@ -123,17 +124,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }*/
 
     private void expand() {
-        int capacityNew = capacity * 2;
-        System.out.println("CAPACITY " + capacity);
-        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();
-        mapEnlarged.capacity = capacityNew;
+        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();;
+        MapEntry<K, V>[] tableExp = new MapEntry[capacity * 2];
+        mapEnlarged.table = tableExp;
+        mapEnlarged.capacity = 16;
+        System.out.println("SIZE NEW ENLARGED " + mapEnlarged.table.length + " .CAPACITY " + mapEnlarged.capacity);
         Iterator<K> itr = iterator();
         while (itr.hasNext()) {
                 K key = itr.next();
-            mapEnlarged.put(key, get(key));
+                V val = get(key);
+            mapEnlarged.put(key, val);
             }
         this.table = mapEnlarged.table;
-        this.capacity = capacityNew;
+        //capacity = capacityNew;
         }
 
     @Override

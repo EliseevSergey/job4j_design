@@ -14,7 +14,7 @@ class SimpleMapTest {
         map.put(2, "2");
         map.put(3, "3");
         map.put(4, "4");
-        System.out.println("INPUTINPUTINPUT");
+        System.out.println("INPUT INPUT INPUT");
     }
 
     @Test
