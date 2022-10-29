@@ -111,15 +111,12 @@ class SimpleMapTest {
         assertThat(map).hasSize(5);
     }
 
-
-
     @Test
     void whenCheckRemoveKeyNull() {
         map.put(null, "0000");
         assertThat(map.remove(null)).isTrue();
         assertThat(map).hasSize(4);
     }
-
 
     @Test
     void whenCheckPutZeroAndNull() {
@@ -138,13 +135,13 @@ class SimpleMapTest {
     @Test
     void whenCheckGetZeroAndNull() {
         SimpleMap<Integer, String> map = new SimpleMap<>();
-        assertThat(map.put(null, "0000")).isTrue(); // в индексе 0 "000"
+        assertThat(map.put(null, "0000")).isTrue();
         assertThat(map.get(0)).isNull();
     }
 
     @Test
     void whenCheckGetKeyNull() {
-        map.put(null, "0000"); // в индексе 0 "000"
+        map.put(null, "0000");
         assertThat(map.get(null)).isEqualTo("0000");
         assertThat(map).hasSize(5);
     }
@@ -152,8 +149,7 @@ class SimpleMapTest {
     @Test
     void whenCheckGetNullAndZero() {
         SimpleMap<Integer, String> map = new SimpleMap<>();
-        assertThat(map.put(0, "0")).isTrue(); // в индексе 0 "0"
-        assertThat(map.get(null)).isNull(); //
+        assertThat(map.put(0, "0")).isTrue();
+        assertThat(map.get(null)).isNull();
     }
-
 }
