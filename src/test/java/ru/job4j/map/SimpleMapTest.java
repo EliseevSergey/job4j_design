@@ -14,7 +14,6 @@ class SimpleMapTest {
         map.put(2, "2");
         map.put(3, "3");
         map.put(4, "4");
-        System.out.println("INPUT INPUT INPUT");
     }
 
     @Test
@@ -95,6 +94,7 @@ class SimpleMapTest {
     @Test
     void whenMapExpand() {
         map.put(null, "0000");
+        assertThat(map.get(null)).isEqualTo("0000");
         assertThat(map.put(15, "15")).isTrue();
         assertThat(map).hasSize(6);
         assertThat(map.put(8, "8")).isTrue();

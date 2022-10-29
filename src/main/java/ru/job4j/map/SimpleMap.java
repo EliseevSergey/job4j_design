@@ -19,28 +19,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public List<K> keyList() {
         return Arrays.stream(table)
                 .filter(Objects::nonNull)
-                .map(item -> item.getKey())
+                .map(MapEntry::getKey)
                 .collect(Collectors.toList());
     }
 
     private int hash(int hashCode) {
-        int before = hashCode;
-        //System.out.println("before " + before);
-        int after = before >>> capacity - 1;
-        //System.out.println("after " + after);
-        int rsl = before ^ after;
-        //System.out.println("rsl AFTER AFTER " + rsl);
+        int rsl = hashCode ^ (hashCode >>> (this.capacity - 1));
         return rsl;
     }
 
-    /*private int hash(int hashCode) {
-        int rsl = Integer.hashCode(hashCode);
-        return rsl;
-    }
-*/
     private  int indexFor(int hash) {
-        int index = hash & (capacity - 1);
-        //System.out.println("hash: " + hash + ". index: " + index);
+        int index = hash & (this.capacity - 1);
         return index;
     }
 
@@ -56,38 +45,28 @@ public class SimpleMap<K, V> implements Map<K, V> {
         public K getKey() {
             return key;
         }
-
         public V getValue() {
             return value;
         }
-
-        public void setKey(K key){
+        public void setKey(K key) {
             this.key = key;
         }
-        public void setValue(V value){
+        public void setValue(V value) {
             this.value = value;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             MapEntry<?, ?> mapEntry = (MapEntry<?, ?>) o;
             return Objects.equals(key, mapEntry.key) && Objects.equals(value, mapEntry.value);
         }
 
-        /*@Override
-        public int hashCode() {
-            return Objects.hash(key, value);
-        }*/
-
-        /*@Override
-        public int hashCode () {
-            int rsl = key.hashCode();
-            System.out.println(rsl);
-            rsl = 31 * rsl + value.hashCode();
-            return rsl;
-        }*/
         @Override
         public int hashCode() {
             return key == null ? 0 : key.hashCode();
@@ -97,11 +76,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         boolean rsl = true;
-        System.out.println(" LOAD  >>> " + (float)((float) count / (float) capacity));
-        if ((float) count / (float) capacity >= LOAD_FACTOR) {
-            System.out.println(" вызван Экспанд****************************");
-            expand();
-        }
         MapEntry<K, V> in = new MapEntry<>(key, value);
         int keyHash = in.hashCode();
         int hashTable = hash(keyHash);
@@ -110,33 +84,27 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 table[index] = in;
                 modCount++;
                 count++;
-                System.out.println("KEY " + key + " .PUT index " + index + ". PUT count " + count + ". keyHash " + keyHash + ". hastable " + hashTable + " . capacity " + this.capacity);
+                if ((float) count / (float) capacity >= LOAD_FACTOR) {
+                    expand();
+                }
             } else {
             rsl = false;
         }
         return rsl;
     }
 
-    /*private int hash(int hashCode) {
-        int rsl = Integer.hashCode(hashCode);
-        System.out.println("hascode " + rsl);
-        return rsl;
-    }*/
-
     private void expand() {
-        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();;
-        MapEntry<K, V>[] tableExp = new MapEntry[capacity * 2];
-        mapEnlarged.table = tableExp;
-        mapEnlarged.capacity = 16;
-        System.out.println("SIZE NEW ENLARGED " + mapEnlarged.table.length + " .CAPACITY " + mapEnlarged.capacity);
+        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();
+        mapEnlarged.table = new MapEntry[capacity * 2];
+        mapEnlarged.capacity = capacity * 2;
         Iterator<K> itr = iterator();
         while (itr.hasNext()) {
                 K key = itr.next();
                 V val = get(key);
-            mapEnlarged.put(key, val);
+                mapEnlarged.put(key, val);
             }
-        this.table = mapEnlarged.table;
-        //capacity = capacityNew;
+        table = mapEnlarged.table;
+        capacity = mapEnlarged.capacity;
         }
 
     @Override
@@ -163,32 +131,22 @@ public class SimpleMap<K, V> implements Map<K, V> {
         int hashTable = hash(keyHash);
         int indexToDel = indexFor(hashTable);
 
-        if ((key != null) && (table[indexToDel] != null) && (table[indexToDel].hashCode() == keyHash) && (key.equals(table[indexToDel].getKey()))) {
+        if (((key != null) && (table[indexToDel] != null) && (table[indexToDel].hashCode() == keyHash) && (key.equals(table[indexToDel].getKey()))
+    || ((key == null) && (table[indexToDel] != null)  && (table[indexToDel].getKey() == null)))) {
             table[indexToDel].setValue(null);
             table[indexToDel].setKey(null);
             table[indexToDel] = null;
             count--;
             modCount++;
             rsl = true;
-            System.out.println("remove + count" + count);
             }
-        if ((key == null) && (table[indexToDel] != null)  && (table[indexToDel].getKey() == null)) {
-            table[indexToDel].setValue(null);
-            table[indexToDel].setKey(null);
-            table[indexToDel] = null;
-            count--;
-            modCount++;
-            rsl = true;
-        }
         return rsl;
     }
 
     @Override
     public Iterator<K> iterator() {
         int expectedModCount = modCount;
-        Iterator<K> itrKeyList = keyList().iterator();
-        //int size = keyList().size();
-        return new Iterator<K>() {
+        return new Iterator<>() {
             int point = 0;
             @Override
             public boolean hasNext() {
