@@ -1,11 +1,6 @@
 package ru.job4j.collection;
 
 public class Hash {
-    /*public static final int hash(Object key) {
-        int h;
-        return (key == null) ?  0 : (h = key.hashCode()) ^ (h >>> 16);
-    }*/
-
     public static String binary(int num) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 31; i++) {
@@ -17,15 +12,8 @@ public class Hash {
     }
 
     public static void main(String[] args) {
-        /*System.out.println(Hash.binary(80));
-        System.out.println(Hash.binary(80 >>> 1));*/
         System.out.println(Hash.binary(1137));
         System.out.println(Hash.binary(7));
-
-
-
-
-
         System.out.println(Hash.binary((72 & 7)));
         System.out.println("line");
         System.out.println(Hash.binary(255));
