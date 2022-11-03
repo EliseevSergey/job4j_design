@@ -1,7 +1,6 @@
 package ru.job4j.map;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -9,22 +8,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private int capacity = 8;
     private int count = 0;
     private int modCount = 0;
-    private MapEntry<K, V>[] table = new MapEntry[capacity];
+    private MapEntry<K, V>[] tbl = new MapEntry[capacity];
 
     @Override
     public int size() {
         return count;
     }
 
-
     private int hash(int hashCode) {
-        int rsl = hashCode ^ (hashCode >>> (this.capacity - 1));
-        return rsl;
+        return hashCode ^ (hashCode >>> 16);
     }
 
     private int indexFor(int hash) {
-        int index = hash & (this.capacity - 1);
-        return index;
+        return hash & (this.capacity - 1);
     }
 
     private static class MapEntry<K, V> {
@@ -39,7 +35,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
         public K getKey() {
             return key;
         }
-
         public V getValue() {
             return value;
         }
@@ -73,12 +68,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         boolean rsl = true;
-        MapEntry<K, V> in = new MapEntry<>(key, value);
-        int keyHash = in.hashCode();
-        int hashTable = hash(keyHash);
-        int index = indexFor(hashTable);
-        if (table[index] == null) {
-            table[index] = in;
+        int index = indexFor(hash(Objects.hashCode(key)));
+        if (tbl[index] == null) {
+            tbl[index] = new MapEntry<>(key, value);
             modCount++;
             count++;
             if (count * 100 / capacity >= LOAD_FACTOR * 100) {
@@ -91,31 +83,24 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private void expand() {
-        SimpleMap<K, V> mapEnlarged = new SimpleMap<>();
-        mapEnlarged.table = new MapEntry[capacity * 2];
-        mapEnlarged.capacity = capacity * 2;
-        Iterator<K> itr = iterator();
-        while (itr.hasNext()) {
-            K key = itr.next();
-            V val = get(key);
-            mapEnlarged.put(key, val);
+        SimpleMap<K, V> sizeUp = new SimpleMap<>();
+        sizeUp.tbl = new MapEntry[capacity * 2];
+        sizeUp.capacity = capacity * 2;
+        for (MapEntry<K, V> cell : tbl) {
+            if (cell != null) {
+                sizeUp.put(cell.getKey(), cell.getValue());
+            }
         }
-        table = mapEnlarged.table;
-        capacity = mapEnlarged.capacity;
+        tbl = sizeUp.tbl;
+        capacity = sizeUp.capacity;
     }
 
     @Override
     public V get(K key) {
         V rsl = null;
-        MapEntry<K, V> out = new MapEntry<>(key, rsl);
-        int keyHash = out.hashCode();
-        int hashTable = hash(keyHash);
-        int index = indexFor(hashTable);
-        if ((key != null) && (table[index] != null) && (table[index].hashCode() == keyHash) && (key.equals(table[index].getKey()))) {
-            rsl = table[index].getValue();
-        }
-        if ((key == null) && (table[index] != null) && (table[index].getKey() == null)) {
-            rsl = table[index].getValue();
+        int index = indexFor(hash(Objects.hashCode(key)));
+        if (tbl[index] != null && Objects.equals(key, tbl[index].getKey())) {
+            rsl = tbl[index].getValue();
         }
         return rsl;
     }
@@ -123,29 +108,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        MapEntry<K, V> toDel = new MapEntry<>(key, null);
-        int keyHash = toDel.hashCode();
-        int hashTable = hash(keyHash);
-        int indexToDel = indexFor(hashTable);
-
-        if (((key != null) && (table[indexToDel] != null) && (table[indexToDel].hashCode() == keyHash) && (key.equals(table[indexToDel].getKey()))
-                || ((key == null) && (table[indexToDel] != null) && (table[indexToDel].getKey() == null)))) {
-            table[indexToDel].setValue(null);
-            table[indexToDel].setKey(null);
-            table[indexToDel] = null;
+        int index = indexFor(hash(Objects.hashCode(key)));
+        if (tbl[index] != null && Objects.equals(key, tbl[index].getKey())) {
+            tbl[index].setValue(null);
+            tbl[index].setKey(null);
+            tbl[index] = null;
             count--;
             modCount++;
             rsl = true;
         }
         return rsl;
     }
-
-    /*public List<K> keyList() {
-        return Arrays.stream(table)
-                .filter(Objects::nonNull)
-                .map(MapEntry::getKey)
-                .collect(Collectors.toList());
-    }*/
 
     @Override
     public Iterator<K> iterator() {
@@ -158,26 +131,26 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return point < table.length;
-            }
-
-            @Override
-            public K next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                while (table[point] == null) {
-                        point++;
-                        if (point == table.length) {
-                            break;
+                if (point < tbl.length) {
+                    while (tbl[point] == null) {
+                    point++;
+                    if (point == tbl.length) {
+                        break;
+                        }
                     }
-                };
-                K rsl = table[point].getKey();
-                point++;
-                return rsl;
-            }
+                }
+                return point < tbl.length;
+                }
 
-            ;
+                @Override
+                public K next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    K rsl = tbl[point].getKey();
+                    point++;
+                    return rsl;
+            }
         };
     }
 }

@@ -19,8 +19,8 @@ class SimpleMapTest {
     @Test
     void checkSimpleIterator() {
         assertThat(map)
-                .hasSize(4);
-                //.contains(1, 2, 3, 4);
+                .hasSize(4)
+                .contains(1, 2, 3, 4);
     }
 
     @Test
