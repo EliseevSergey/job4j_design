@@ -10,6 +10,8 @@ public interface Tree<E> {
 
     Optional<Node<E>> findBy(E val);
 
+    boolean isBinary();
+
     class Node<E> {
         final E val;
         final List<Node<E>> children = new ArrayList<>();
