@@ -65,15 +65,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
         }
     }
 
+    private int indexWithKey(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
+    }
+
     @Override
     public boolean put(K key, V value) {
         boolean rsl = true;
-        int index = indexFor(hash(Objects.hashCode(key)));
+        int index = indexWithKey(key);
         if (tbl[index] == null) {
             tbl[index] = new MapEntry<>(key, value);
             modCount++;
             count++;
-            if (count * 100 / capacity >= LOAD_FACTOR * 100) {
+            if (count >= capacity * LOAD_FACTOR) {
                 expand();
             }
         } else {
@@ -95,11 +99,21 @@ public class SimpleMap<K, V> implements Map<K, V> {
         capacity = sizeUp.capacity;
     }
 
+    private boolean check(K keyA, K keyB) {
+        boolean rsl;
+        if (Objects.hashCode(keyA) != Objects.hashCode(keyB)) {
+            rsl = false;
+        } else {
+            rsl = Objects.equals(keyA, keyB);
+        }
+        return rsl;
+    }
+
     @Override
     public V get(K key) {
         V rsl = null;
-        int index = indexFor(hash(Objects.hashCode(key)));
-        if (tbl[index] != null && Objects.equals(key, tbl[index].getKey())) {
+        int index = indexWithKey(key);
+        if (tbl[index] != null && check(key, tbl[index].getKey())) {
             rsl = tbl[index].getValue();
         }
         return rsl;
@@ -108,8 +122,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        int index = indexFor(hash(Objects.hashCode(key)));
-        if (tbl[index] != null && Objects.equals(key, tbl[index].getKey())) {
+        int index = indexWithKey(key);
+        if (tbl[index] != null && check(key, tbl[index].getKey())) {
             tbl[index].setValue(null);
             tbl[index].setKey(null);
             tbl[index] = null;
