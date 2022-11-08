@@ -3,6 +3,7 @@ package ru.job4j.question;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
