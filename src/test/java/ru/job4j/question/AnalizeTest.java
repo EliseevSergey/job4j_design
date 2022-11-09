@@ -24,10 +24,11 @@ class AnalizeTest {
         User u1 = new User(1, "A");
         User u2 = new User(2, "B");
         User u3 = new User(3, "C");
-        User u4 = new User(2, "D");
+        User u2Edited = new User(2, "BB");
+        User u3Edited = new User(3, "CC");
         Set prev = Set.of(u1, u2, u3);
-        Set cur = Set.of(u1, u4, u3);
-        assertThat(Analize.diff(prev, cur)).isEqualTo(new Info(0, 1, 0));
+        Set cur = Set.of(u1, u2Edited, u3Edited);
+        assertThat(Analize.diff(prev, cur)).isEqualTo(new Info(0, 2, 0));
     }
 
     @Test
@@ -44,7 +45,7 @@ class AnalizeTest {
     }
 
     @Test
-    void whenThreeDelAndNewAddedAndOneChanged() {
+    void whenThreeDelAndTwoAddedAndOneChanged() {
         User u1 = new User(1, "A");
         User u2 = new User(2, "B");
         User u3 = new User(3, "C");
@@ -65,5 +66,15 @@ class AnalizeTest {
         Set prev = Set.of(u1, u2, u3, u4);
         Set cur = Set.of();
         assertThat(Analize.diff(prev, cur)).isEqualTo(new Info(0, 0, 4));
+    }
+
+        @Test
+    void whenAllChanged() {
+        User u1 = new User(1, "A");
+        User u2 = new User(2, "B");
+        User u3 = new User(3, "C");
+        Set previous = Set.of(u1, u2, u3);
+        Set current = Set.of(new User(1, "AA"), u2, new User(4, "D"));
+        assertThat(Analize.diff(previous, current)).isEqualTo(new Info(1, 1, 1));
     }
 }

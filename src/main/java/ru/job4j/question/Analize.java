@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Analize {
-
     public static Info diff(Set<User> prev, Set<User> cur) {
         Info rsl = new Info(0, 0, 0);
         Set prevSetId = prev.stream()
@@ -16,17 +15,16 @@ public class Analize {
                 .collect(Collectors.toSet());
         int sizeCur = curSetId.size();
         Iterator<User> prevItr = prev.iterator();
-        Iterator prevIdItr = prevSetId.iterator();
-        int chngQty = 0;
+        int changed = 0;
         while (prevItr.hasNext()) {
             User user = prevItr.next();
             if (!cur.contains(user)) {
                 if (curSetId.contains(user.getId())) {
-                    chngQty++;
+                    changed++;
                 }
             }
         }
-        rsl.setChanged(chngQty);
+        rsl.setChanged(changed);
         curSetId.retainAll(prevSetId);
         rsl.setAdded(sizeCur - curSetId.size());
         rsl.setDeleted(prevSetId.size() - curSetId.size());
