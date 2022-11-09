@@ -1,5 +1,6 @@
 package ru.job4j.question;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -7,27 +8,28 @@ public class Analize {
 
     public static Info diff(Set<User> prev, Set<User> cur) {
         Info rsl = new Info(0, 0, 0);
-
         Set prevSetId = prev.stream()
                 .map(User::getId)
                 .collect(Collectors.toSet());
-
-        int sizePrev = prevSetId.size();
-
         Set curSetId = cur.stream()
                 .map(User::getId)
                 .collect(Collectors.toSet());
-
-        curSetId.retainAll(prevSetId);
-
-        int switcher = sizePrev - curSetId.size(); //остануться только общие элементы
-
-        if (switcher >= 0) {
-            rsl.setDeleted(switcher);
-        } else {
-            rsl.setAdded(Math.abs(switcher));
+        int sizeCur = curSetId.size();
+        Iterator<User> prevItr = prev.iterator();
+        Iterator prevIdItr = prevSetId.iterator();
+        int chngQty = 0;
+        while (prevItr.hasNext()) {
+            User user = prevItr.next();
+            if (!cur.contains(user)) {
+                if (curSetId.contains(user.getId())) {
+                    chngQty++;
+                }
+            }
         }
-
+        rsl.setChanged(chngQty);
+        curSetId.retainAll(prevSetId);
+        rsl.setAdded(sizeCur - curSetId.size());
+        rsl.setDeleted(prevSetId.size() - curSetId.size());
         return rsl;
     }
 }
