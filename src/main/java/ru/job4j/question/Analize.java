@@ -7,14 +7,27 @@ public class Analize {
 
     public static Info diff(Set<User> prev, Set<User> cur) {
         Info rsl = new Info(0, 0, 0);
-        Set<Integer> setIdPrev = prev.stream()
-                        .map(User::getId)
-                                .collect(Collectors.toSet());
 
-        int result [] = prev.stream()
+        Set prevSetId = prev.stream()
                 .map(User::getId)
-                .mapToInt(i->i).toArray();
+                .collect(Collectors.toSet());
 
-        return new Info(1, 0, 0 );
+        int sizePrev = prevSetId.size();
+
+        Set curSetId = cur.stream()
+                .map(User::getId)
+                .collect(Collectors.toSet());
+
+        curSetId.retainAll(prevSetId);
+
+        int switcher = sizePrev - curSetId.size(); //остануться только общие элементы
+
+        if (switcher >= 0) {
+            rsl.setDeleted(switcher);
+        } else {
+            rsl.setAdded(Math.abs(switcher));
+        }
+
+        return rsl;
     }
 }
