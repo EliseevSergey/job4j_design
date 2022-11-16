@@ -12,11 +12,18 @@ public class LogFilter {
     public List<String> filter(String file) {
         try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
             in.lines().forEach(System.out::println);
+
             List<String> listString = new ArrayList<>();
-            listString.add(in.readLine());
+
+
+            for (String line = in.readLine(); line != null; line = in.readLine()) {
+                listString.add(line);
+            }
+
+
             Iterator<String> itr = listString.listIterator();
-            while(itr.hasNext()) {
-                System.out.println(itr.next());
+            while (itr.hasNext()) {
+                System.out.println(listString.size() + " TRrr " + itr.next());
             }
             /*listString.stream()
                     .filter(item -> item.contains("404"))
