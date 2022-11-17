@@ -13,22 +13,17 @@ public class LogFilter {
         List<String> listString = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
             listString = in.lines()
-                    .filter(item -> item.contains("404") && item.contains(" "))
-                    .filter(item -> item.lastIndexOf(" ") - item.lastIndexOf("404") == 3)
+                    .filter(item -> item.contains(" 404 "))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return listString;
     }
-
     public static void main(String[] args) {
         LogFilter logFilter = new LogFilter();
         List<String> log = logFilter.filter("log.txt");
-        Iterator<String> itr = log.iterator();
-        while (itr.hasNext()) {
-            System.out.println(itr.next());
-        }
+        System.out.println(log);
     }
-
 }
+
