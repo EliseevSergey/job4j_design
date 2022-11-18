@@ -1,14 +1,12 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogFilter {
-    public List<String> filter(String file) {
+    public static List<String> filter(String file) {
         List<String> listString = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
             listString = in.lines()
@@ -19,10 +17,25 @@ public class LogFilter {
         }
         return listString;
     }
+
+    public static void save(List<String> log, String file) {
+        try (PrintWriter out = new PrintWriter(
+            new BufferedOutputStream(
+                    new FileOutputStream(file)
+            ))) {
+            for (String str : log) {
+                out.println(str);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         LogFilter logFilter = new LogFilter();
         List<String> log = logFilter.filter("log.txt");
         log.forEach(System.out::println);
+        save(log, "404.txt");
     }
 }
 
