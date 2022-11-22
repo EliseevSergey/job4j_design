@@ -8,30 +8,30 @@ import java.util.stream.Collectors;
 
 public class Config {
     private final String path;
-    private final Map<String, String> values = new HashMap<String, String>();
+    private final Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
     }
 
     public void load() {
-        List<String> list = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
-            list = in.lines()
+            List<String> list = in.lines()
                     .filter(i -> !i.contains("#"))
-                    .collect(Collectors.toList());
+                    .filter(i -> !i.isBlank())
+                    .toList();
             for (String str : list) {
                 if (!str.contains("=")) {
                     throw new IllegalArgumentException();
                 }
-                String[] array = str.split("=", 3);
-                if (array.length != 3) {
+                String[] array = str.split("=", 2);
+                if (array.length != 2) {
                     throw new IllegalArgumentException();
                 }
-                if (array[0].isBlank() || array[2].isBlank()) {
+                if (array[0].isBlank() || array[1].isBlank()) {
                     throw new IllegalArgumentException();
                 }
-                values.put(array[0], array[2]);
+                values.put(array[0], array[1]);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,7 +40,6 @@ public class Config {
 
     public String value(String key) {
         return values.get(key);
-        //throw new UnsupportedOperationException("Don't impl this method yet!");
     }
 
     @Override
@@ -55,7 +54,7 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
+        System.out.println(new Config("./data/app.properties"));
     }
 }
 
