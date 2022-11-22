@@ -17,25 +17,36 @@ public class Config {
     public void load() {
         List<String> list = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
-            list = in.lines().collect(Collectors.toList())
-                    .stream().flatMap();
+            list = in.lines()
+                    .filter(i -> !i.contains("#"))
+                    .collect(Collectors.toList());
+            for (String str : list) {
+                if (!str.contains("=")) {
+                    throw new IllegalArgumentException();
+                }
+                String[] array = str.split("=", 3);
+                if (array.length != 3) {
+                    throw new IllegalArgumentException();
+                }
+                if (array[0].isBlank() || array[2].isBlank()) {
+                    throw new IllegalArgumentException();
+                }
+                values.put(array[0], array[2]);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-
-
         }
     }
 
     public String value(String key) {
-        throw new UnsupportedOperationException("Don't impl this method yet!");
+        return values.get(key);
+        //throw new UnsupportedOperationException("Don't impl this method yet!");
     }
 
     @Override
     public String toString() {
         StringJoiner out = new StringJoiner(System.lineSeparator());
-        try(BufferedReader in = new BufferedReader(new FileReader(this.path))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             in.lines().forEach(out::add);
         } catch (IOException e) {
             e.printStackTrace();
