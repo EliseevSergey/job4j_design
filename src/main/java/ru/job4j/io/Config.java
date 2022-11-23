@@ -17,19 +17,19 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             List<String> list = in.lines()
-                    .filter(i -> !i.contains("#"))
+                    .filter(i -> !i.startsWith("#"))
                     .filter(i -> !i.isBlank())
                     .toList();
             for (String str : list) {
                 if (!str.contains("=")) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException(" !!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
                 String[] array = str.split("=", 2);
                 if (array.length != 2) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException(str + " does not contain key or value");
                 }
                 if (array[0].isBlank() || array[1].isBlank()) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException(str + " key or value is blank");
                 }
                 values.put(array[0], array[1]);
             }
