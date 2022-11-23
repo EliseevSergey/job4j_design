@@ -24,7 +24,7 @@ class ConfigTest {
 
     @Test
     void whenNoKey() {
-        String path = "./data/noKey.properties";
+        String path = "./data/NoKey.properties";
         Config cfg = new Config(path);
         System.out.println(cfg);
         assertThatThrownBy(cfg::load)
@@ -33,7 +33,7 @@ class ConfigTest {
 
     @Test
     void whenNoValue() {
-        String path = "./data/noValue.properties";
+        String path = "./data/NoValue.properties";
         Config cfg = new Config(path);
         System.out.println(cfg);
         assertThatThrownBy(cfg::load)
