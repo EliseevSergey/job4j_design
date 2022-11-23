@@ -9,11 +9,10 @@ public class StringToTime {
         String str = "15:01:30";
         SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
         try {
-           //Date date = formater.parse(str);
-           // System.out.println(date);
+           Date date = formater.parse(str);
+           System.out.println(date);
             String strDate = formater.format(formater.parse(str));
             System.out.println(formater.format(formater.parse(str)));
-            //formater.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
