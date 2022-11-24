@@ -22,14 +22,14 @@ public class Config {
                     .toList();
             for (String str : list) {
                 if (!str.contains("=")) {
-                    throw new IllegalArgumentException(" !!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    throw new IllegalArgumentException(" Line: "  + str + " does not contain =.");
                 }
                 String[] array = str.split("=", 2);
                 if (array.length != 2) {
-                    throw new IllegalArgumentException(str + " does not contain key or value");
+                    throw new IllegalArgumentException(" Line: " + str + " does not contain key or value");
                 }
                 if (array[0].isBlank() || array[1].isBlank()) {
-                    throw new IllegalArgumentException(str + " key or value is blank");
+                    throw new IllegalArgumentException(" Line: "  + str + " has no key or value");
                 }
                 values.put(array[0], array[1]);
             }

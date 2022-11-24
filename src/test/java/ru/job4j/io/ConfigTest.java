@@ -14,7 +14,7 @@ class ConfigTest {
     }
 
     @Test
-    void whenBifFile() {
+    void whenBigFile() {
         String path = "./data/app.properties";
         Config cfg = new Config(path);
         System.out.println(cfg);
