@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Config {
     private final String path;
@@ -22,14 +21,14 @@ public class Config {
                     .toList();
             for (String str : list) {
                 if (!str.contains("=")) {
-                    throw new IllegalArgumentException(" Line: "  + str + " does not contain =.");
+                    throw new IllegalArgumentException(String.format("Line[%s] does not contain =.", str));
                 }
                 String[] array = str.split("=", 2);
                 if (array.length != 2) {
-                    throw new IllegalArgumentException(" Line: " + str + " does not contain key or value");
+                    throw new IllegalArgumentException(String.format("Line[%s] does not contain key or value", str));
                 }
                 if (array[0].isBlank() || array[1].isBlank()) {
-                    throw new IllegalArgumentException(" Line: "  + str + " has no key or value");
+                    throw new IllegalArgumentException(String.format("Line[%s] has no key or value", str));
                 }
                 values.put(array[0], array[1]);
             }
