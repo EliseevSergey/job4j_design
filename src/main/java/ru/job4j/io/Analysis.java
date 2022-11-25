@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.*;
 
 public class Analysis {
     public void unavailable(String source, String target) {
@@ -9,21 +8,12 @@ public class Analysis {
             BufferedReader in = new BufferedReader(new FileReader(source));
             boolean printSwitcher = false;
             for (String line = in.readLine(); line != null; line = in.readLine()) {
-                /*String[] array = line.split(" ");
+                String[] array = line.split(" ");
                 if (((array[0].equals("400") || (array[0].equals("500"))) && (!printSwitcher))) {
                     out.print(array[1]);
                     printSwitcher = true;
                 }
                 if (!array[0].equals("400") && !array[0].equals("500") && printSwitcher) {
-                    out.println(String.format(";%s", array[1]));
-                    printSwitcher = false;
-                }*/
-
-                String[] array = line.split(" ");
-                if (((array[0].equals("400") || (array[0].equals("500"))) && (!printSwitcher))) {
-                    out.print(array[1]);
-                    printSwitcher = true;
-                } else {
                     out.println(String.format(";%s", array[1]));
                     printSwitcher = false;
                 }
