@@ -24,4 +24,3 @@ public class Analysis {
         fail.unavailable("./data/server.txt", "./data/unavailableServer.csv");
     }
 }
-
