@@ -5,29 +5,27 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.*;
 
 public class DuplicatesVisitor  extends SimpleFileVisitor<Path> {
-    private Predicate<Path> fltr;
-    private List<Path> list = new ArrayList<>();
+    private HashMap<FileProperty, ArrayList<Path>> mainMap = new HashMap<>();
+    private HashMap<FileProperty, ArrayList<Path>> duplicates = new HashMap<>();
 
-    public DuplicatesVisitor(Predicate<Path> fltr) {
-        this.fltr = fltr;
-    }
-
-    public List<Path> getList() {
-        return list;
+    public HashMap<FileProperty, ArrayList<Path>> getDuplicates() {
+        return duplicates;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (fltr.test(file)) {
-            list.add(file);
-            System.out.println(String.format("Locations : [%s]", file.getParent().toAbsolutePath()));
+        FileProperty fp = new FileProperty(file.toFile().getName(), file.toFile().length());
+        ArrayList<Path> paths = new ArrayList<>();
+        paths.add(file);
+        if (!mainMap.containsKey(fp)) {
+            mainMap.put(fp, paths);
+        } else {
+            duplicates.put(fp, mainMap.get(fp));
+            duplicates.get(fp).add(file);
         }
-
         return super.visitFile(file, attrs);
     }
 }

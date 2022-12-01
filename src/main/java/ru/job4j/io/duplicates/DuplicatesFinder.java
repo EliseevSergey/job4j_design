@@ -3,23 +3,24 @@ package ru.job4j.io.duplicates;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
-        Path start = Path.of(".");
-        var file = new FileProperty(7, "FindMeCopy.txt");
-        search(start,  p -> (p.toFile()
-                .getName()
-                .equals(file.getName())) && (p.toFile().length() == file.getSize()),
-                 file);
+        Path root = Path.of(".");
+        var rsl = searchDuplicate(root);
+        for (FileProperty fp : rsl.keySet()) {
+            System.out.println(String.format("File [%s]. Size [%s] bytes", fp.getName(), fp.getSize()));
+            for (Path location : rsl.get(fp)) {
+                System.out.println(String.format("Locations : [%s]", location.toAbsolutePath()));
+            }
+          }
     }
 
-    public static List<Path> search(Path root, Predicate<Path> condition, FileProperty fileProp) throws IOException {
-        System.out.println(String.format("File [%s]. Size [%s] bytes", fileProp.getName(), fileProp.getSize()));
-        var searcher = new DuplicatesVisitor(condition);
+    public static HashMap<FileProperty, ArrayList<Path>> searchDuplicate(Path root) throws IOException {
+        var searcher = new DuplicatesVisitor();
         Files.walkFileTree(root, searcher);
-        return searcher.getList();
+        return searcher.getDuplicates();
     }
 }
