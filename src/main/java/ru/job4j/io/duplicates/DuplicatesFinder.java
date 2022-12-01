@@ -15,12 +15,12 @@ public class DuplicatesFinder {
             for (Path location : rsl.get(fp)) {
                 System.out.println(String.format("Locations : [%s]", location.toAbsolutePath()));
             }
-          }
+        }
     }
 
     public static HashMap<FileProperty, ArrayList<Path>> searchDuplicate(Path root) throws IOException {
         var searcher = new DuplicatesVisitor();
         Files.walkFileTree(root, searcher);
-        return searcher.getDuplicates();
+        return searcher.getMap();
     }
 }
