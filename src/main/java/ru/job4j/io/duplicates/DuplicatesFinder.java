@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
-        Path root = Path.of("/Users/admin/IdeaProjects");
+        Path root = Path.of(".");
         var rsl = searchDuplicate(root);
         for (FileProperty fp : rsl.keySet()) {
             System.out.println(String.format("File [%s]. Size [%s] bytes", fp.getName(), fp.getSize()));
