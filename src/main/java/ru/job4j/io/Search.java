@@ -18,15 +18,19 @@ public class Search {
     }
 
     public static void validation(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("No arguments are set");
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Not enough arguments");
         }
         Path start = Path.of(args[0]);
         if (!start.toFile().exists()) {
-            throw new IllegalArgumentException(String.format("Not exist %s", start.toAbsolutePath()));
+            throw new IllegalArgumentException(String.format("File [%s] not exist ", args[0]));
         }
-        if (args.length == 1) {
-            throw new IllegalArgumentException("File extension is not set up");
+        if (!start.toFile().isDirectory()) {
+            throw new IllegalArgumentException(String.format("File [%s] is not directory", args[0]));
+        }
+
+        if (!args[1].startsWith(".") || args[1].length() == 1) {
+            throw new IllegalArgumentException(String.format("File extension [%s] is incorrect", args[1]));
         }
     }
 
