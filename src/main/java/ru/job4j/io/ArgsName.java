@@ -13,29 +13,29 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void argsValidation(String[] args) {
-        for (String str : args) {
-            if (!str.contains("=")) {
-                throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", str));
+    private void argValidation(String arg) {
+            if (!arg.contains("=")) {
+                throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", arg));
             }
-            if (!str.startsWith("-")) {
-                throw new IllegalArgumentException(String.format("Argument [%s] does not begin with [-]", str));
+            if (!arg.startsWith("-")) {
+                throw new IllegalArgumentException(String.format("Argument [%s] does not begin with [-]", arg));
             }
-            String[] keyVal = str.split("=", 2);
+            String[] keyVal = arg.split("=", 2);
             if (keyVal[0].equals("-")) {
-                throw new IllegalArgumentException(String.format("Key is empty for argument [%s]", str));
+                throw new IllegalArgumentException(String.format("Key is empty for argument [%s]", arg));
             }
             if (keyVal[1].isEmpty()) {
-                throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", str));
+                throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", arg));
             }
         }
-    }
 
     private void parse(String[] args) {
-        argsValidation(args);
-        for (String str : args) {
-            String[] keyVal = str.split("=", 2);
-            values.put(keyVal[0].split("-", 2)[1], keyVal[1]);
+        for (String arg : args) {
+            argValidation(arg);
+            int indexEqual = arg.indexOf("=");
+            String key = arg.substring(1, indexEqual);
+            String val = arg.substring(indexEqual + 1);
+            values.put(key, val);
             }
         }
 
