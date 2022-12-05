@@ -13,7 +13,7 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void parse(String[] args) {
+    private void argsValidation(String[] args) {
         for (String str : args) {
             if (!str.contains("=")) {
                 throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", str));
@@ -28,10 +28,16 @@ public class ArgsName {
             if (keyVal[1].isEmpty()) {
                 throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", str));
             }
+        }
+    }
+
+    private void parse(String[] args) {
+        argsValidation(args);
+        for (String str : args) {
+            String[] keyVal = str.split("=", 2);
             values.put(keyVal[0].split("-", 2)[1], keyVal[1]);
             }
         }
-
 
     public static ArgsName of(String[] args) {
         if (args.length == 0) {
