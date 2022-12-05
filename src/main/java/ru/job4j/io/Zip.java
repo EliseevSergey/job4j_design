@@ -1,13 +1,14 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-    public void packFiles(List<File> src, File trgt) {
+    public void packFiles(List<Path> src, File trgt) {
 
     }
 
@@ -30,6 +31,4 @@ public class Zip {
                 new File("./pom.zip")
         );
     }
-
-
 }
