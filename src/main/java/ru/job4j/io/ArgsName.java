@@ -14,29 +14,26 @@ public class ArgsName {
     }
 
     private void argValidation(String arg, int equalIndex) {
-            if (equalIndex == -1) {
-                throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", arg));
-            }
-            if (!arg.startsWith("-")) {
-                throw new IllegalArgumentException(String.format("Argument [%s] does not begin with [-]", arg));
-            }
-            String key = arg.substring(1, equalIndex);
-            String val = arg.substring(equalIndex + 1);
-            if (key.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Key is empty for argument [%s]", arg));
-            }
-            if (val.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", arg));
-            }
+        if (!arg.startsWith("-")) {
+            throw new IllegalArgumentException(String.format("Argument [%s] does not begin with [-]", arg));
         }
+        if (equalIndex == -1) {
+            throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", arg));
+        }
+        if (equalIndex < 2) {
+            throw new IllegalArgumentException(String.format("Key is empty for argument [%s] or does not begin with -", arg));
+        }
+        if (equalIndex == arg.length() - 1) {
+            throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", arg));
+        }
+    }
 
     private void parse(String[] args) {
         for (String arg : args) {
-            int deviderIndex = arg.indexOf("=");
-            argValidation(arg, deviderIndex);
-            int indexEqual = arg.indexOf("=");
-            String key = arg.substring(1, indexEqual);
-            String val = arg.substring(indexEqual + 1);
+            int equalIndex = arg.indexOf("=");
+            argValidation(arg, equalIndex);
+            String key = arg.substring(1, equalIndex);
+            String val = arg.substring(equalIndex + 1);
             values.put(key, val);
             }
         }
