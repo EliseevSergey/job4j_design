@@ -13,25 +13,27 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void argValidation(String arg) {
-            if (!arg.contains("=")) {
+    private void argValidation(String arg, int equalIndex) {
+            if (equalIndex == -1) {
                 throw new IllegalArgumentException(String.format("Argument [%s] does not contain [=]", arg));
             }
             if (!arg.startsWith("-")) {
                 throw new IllegalArgumentException(String.format("Argument [%s] does not begin with [-]", arg));
             }
-            String[] keyVal = arg.split("=", 2);
-            if (keyVal[0].equals("-")) {
+            String key = arg.substring(1, equalIndex);
+            String val = arg.substring(equalIndex + 1);
+            if (key.isEmpty()) {
                 throw new IllegalArgumentException(String.format("Key is empty for argument [%s]", arg));
             }
-            if (keyVal[1].isEmpty()) {
+            if (val.isEmpty()) {
                 throw new IllegalArgumentException(String.format("Value is empty for argument [%s]", arg));
             }
         }
 
     private void parse(String[] args) {
         for (String arg : args) {
-            argValidation(arg);
+            int deviderIndex = arg.indexOf("=");
+            argValidation(arg, deviderIndex);
             int indexEqual = arg.indexOf("=");
             String key = arg.substring(1, indexEqual);
             String val = arg.substring(indexEqual + 1);
