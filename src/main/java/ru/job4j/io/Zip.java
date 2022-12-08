@@ -8,10 +8,10 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
     public static void packFiles(List<Path> src, Path trgt) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(trgt.toFile().getAbsolutePath())))) {
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(trgt.toFile().getName())))) {
             for (Path path : src) {
-                zip.putNextEntry(new ZipEntry(path.toFile().getName()));
-                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(path.toFile().getAbsolutePath()))) {
+                zip.putNextEntry(new ZipEntry(path.toFile().getAbsolutePath()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(path.toFile()))) {
                     zip.write(out.readAllBytes());
                 }
             }
@@ -19,10 +19,7 @@ public class Zip {
             e.printStackTrace();
         }
     }
-        public static void validation(ArgsName argsName) {
-            System.out.println(argsName.get("d"));
-            System.out.println(argsName.get("e"));
-            System.out.println(argsName.get("o"));
+        private static void validation(ArgsName argsName) {
             if (argsName.get("d").isEmpty()) {
                 throw new IllegalArgumentException("Not enough arguments. Source is not defined.");
             }
@@ -32,7 +29,6 @@ public class Zip {
             if (argsName.get("o").isEmpty()) {
                 throw new IllegalArgumentException("Not enough arguments. Result file is not defined");
             }
-
             Path start = Path.of(argsName.get("d"));
             if (!start.toFile().exists()) {
                 throw new IllegalArgumentException(String.format("File [%s] not exist ", start));
@@ -43,12 +39,16 @@ public class Zip {
         }
 
     public static void main(String[] args) {
-        validation(ArgsName.of(args));
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Not enough arguments");
+        }
+        ArgsName argsName = ArgsName.of(args);
+        validation(argsName);
         try {
-            packFiles(Search.search(Path.of(ArgsName.of(args).get("d")), f -> !f
+            packFiles(Search.search(Path.of(argsName.get("d")), f -> !f
                     .toFile()
                     .getName()
-                    .endsWith(ArgsName.of(args).get("e"))), Path.of(ArgsName.of(args).get("o")));
+                    .endsWith(argsName.get("e"))), Path.of(argsName.get("o")));
         } catch (IOException e) {
             e.printStackTrace();
         }
