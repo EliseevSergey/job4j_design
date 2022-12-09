@@ -21,13 +21,13 @@ public class Zip {
     }
         private static void validation(ArgsName argsName) {
             if (argsName.get("d").isEmpty()) {
-                throw new IllegalArgumentException("Not enough arguments. Source is not defined.");
+                throw new IllegalArgumentException("Argument missing. Source is not defined.");
             }
             if (argsName.get("e").isEmpty()) {
-                throw new IllegalArgumentException("Not enough arguments. Excluded extension is not defined");
+                throw new IllegalArgumentException("Argument missing. Excluded extension is not defined.");
             }
             if (argsName.get("o").isEmpty()) {
-                throw new IllegalArgumentException("Not enough arguments. Result file is not defined");
+                throw new IllegalArgumentException("Argument missing. Result file is not defined.");
             }
             Path start = Path.of(argsName.get("d"));
             if (!start.toFile().exists()) {
@@ -40,7 +40,7 @@ public class Zip {
 
     public static void main(String[] args) {
         if (args.length != 3) {
-            throw new IllegalArgumentException("Not enough arguments");
+            throw new IllegalArgumentException("Not all arguments");
         }
         ArgsName argsName = ArgsName.of(args);
         validation(argsName);
