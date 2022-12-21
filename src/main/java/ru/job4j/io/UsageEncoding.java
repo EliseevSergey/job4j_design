@@ -18,7 +18,7 @@ public class UsageEncoding {
     }
 
     public void writeDateinFile(String path, List<String> data) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"),true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
             pw.println(data);
         } catch (IOException e) {
             e.printStackTrace();
