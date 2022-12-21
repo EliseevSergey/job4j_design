@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,40 +18,33 @@ public class ConsoleChat {
         this.path = path;
         this.botAnswers = botAnswers;
     }
+
     public void run() {
         List<String> phrases = readPhrases();
-        Scanner in = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
-
-        try (PrintWriter pw = new PrintWriter(new FileWriter(botAnswers))) {
-            String humanPhrase = CONTINUE;
+        Scanner in = new Scanner(System.in, Charset.forName("UTF-8"));
+        List<String> logan = new ArrayList<>();
+            boolean botSwitcher = true;
+            String humanPhrase = in.nextLine();
+            logan.add(humanPhrase);
             while (!humanPhrase.equals(OUT)) {
-                humanPhrase = in.nextLine();
-                switch ()
-                boolean botOn = !humanPhrase.equals(STOP);
-                boolean botSwitcherOFF = !humanPhrase.equals(STOP);
-                boolean botSwitcherON = humanPhrase.equals(CONTINUE);
-                sb.append(humanPhrase + "\n");
-                if (humanPhrase.equals(OUT)) {
-                    break;
-                }
-                while (botSwitcherON && botSwitcherOFF) {
+                if (botSwitcher && !humanPhrase.equals(STOP) || humanPhrase.equals(CONTINUE)) {
                     String botPhrase = phrases.get((int) (Math.random() * phrases.size()));
-                    sb.append(botPhrase + "\n");
                     System.out.println(botPhrase);
+                    logan.add(botPhrase);
+                    botSwitcher = true;
                 }
-                if (humanPhrase)
-
+                if (humanPhrase.equals(STOP)) {
+                    botSwitcher = false;
+                }
+                humanPhrase = in.nextLine();
+                logan.add(humanPhrase);
             }
-            pw.write(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            saveLog(logan);
     }
 
     private List<String> readPhrases() {
         List<String> phrases = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path, Charset.forName("UTF-8")))) {
             phrases = br.lines().collect(Collectors.toList());
         } catch (IOException e) {
         e.printStackTrace();
@@ -58,14 +52,22 @@ public class ConsoleChat {
         return phrases;
     }
 
-    private void saveLog(List<String> log){
-
+    private void saveLog(List<String> log) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(botAnswers, Charset.forName("UTF-8")))) {
+            var sb = new StringBuilder();
+            log.stream().
+                    map(s -> s + "\n").
+                    forEach(sb::append);
+            pw.write(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         String botReplies = "./data/botAnswers.txt";
         String chatHistory = "./data/chatHistory.txt";
-        ConsoleChat cc = new ConsoleChat(chatHistory, botReplies);
+        ConsoleChat cc = new ConsoleChat(botReplies, chatHistory);
         cc.run();
     }
 }
