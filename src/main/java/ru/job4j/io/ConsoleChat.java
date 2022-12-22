@@ -26,14 +26,14 @@ public class ConsoleChat {
             boolean botSwitcher = true;
             String humanPhrase = in.nextLine();
             logan.add(humanPhrase);
-            while (!humanPhrase.equals(OUT)) {
-                if (botSwitcher && !humanPhrase.equals(STOP) || humanPhrase.equals(CONTINUE)) {
+            while (!OUT.equals(humanPhrase)) {
+                if (botSwitcher && !STOP.equals(humanPhrase) || CONTINUE.equals(humanPhrase)) {
                     String botPhrase = phrases.get((int) (Math.random() * phrases.size()));
                     System.out.println(botPhrase);
                     logan.add(botPhrase);
                     botSwitcher = true;
                 }
-                if (humanPhrase.equals(STOP)) {
+                if (STOP.equals(humanPhrase)) {
                     botSwitcher = false;
                 }
                 humanPhrase = in.nextLine();
