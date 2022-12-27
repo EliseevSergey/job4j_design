@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.*;
 
 class CSVReaderTest {
-
     @Test
     void whenFilterTwoColumns(@TempDir Path folder) throws Exception {
         String data = String.join(
@@ -64,4 +63,26 @@ class CSVReaderTest {
         CSVReader.handle(argsName);
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);
     }
+
+    @Test
+    void whenArgumentMissingFilter(@TempDir Path folder) throws Exception {
+        String data = String.join(
+                System.lineSeparator(),
+                "name;age;last_name;education",
+                "Tom;20;Smith;Bachelor",
+                "Jack;25;Johnson;Undergraduate",
+                "William;30;Brown;Secondary special"
+        );
+        File file = folder.resolve("source.csv").toFile();
+        File target = folder.resolve("target.csv").toFile();
+        ArgsName argsName = ArgsName.of(new String[]{
+                "-path=" + file.getAbsolutePath(),
+                "-delimiter=;",
+                "-out=" + target.getAbsolutePath()
+        });
+        Files.writeString(file.toPath(), data);
+        assertThatThrownBy(() -> CSVReader.handle(argsName))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 }
+

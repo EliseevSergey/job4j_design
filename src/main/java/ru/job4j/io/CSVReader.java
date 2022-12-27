@@ -8,6 +8,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CSVReader {
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Not all arguments");
+        }
+        ArgsName argsName = ArgsName.of(args);
+        validation(argsName);
+        try {
+            CSVReader.handle(argsName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void handle(ArgsName argsName) throws Exception {
         String delimiter = argsName.get("delimiter");
         File src = new File(argsName.get("path"));
@@ -28,7 +41,7 @@ public class CSVReader {
             StringBuilder sb = new StringBuilder();
             while (sc.hasNext()) {
                 String[] line = sc.next().split(";");
-                fltrIndex.forEach(i -> sb.append(line[i] + delimiter));
+                fltrIndex.forEach(i -> sb.append(line[i]).append(delimiter));
                 sb.replace(sb.length() - 1, sb.length(), System.lineSeparator());
                 }
             pw.write(sb.toString());
@@ -37,23 +50,27 @@ public class CSVReader {
         }
     }
 
-    private static void validation(String[] args) {
-        System.out.println(args.length);
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Not enough arguments");
+    private static void validation(ArgsName argsName) {
+        Path src = Path.of(argsName.get("path"));
+        if (!src.toFile().exists()) {
+            throw new IllegalArgumentException(String.format("Source file [%s] not exist ", src));
         }
-        Path source = Path.of(args[0]);
-        if (!source.toFile().exists()) {
-            throw new IllegalArgumentException(String.format("File [%s] not exist ", args[0]));
+
+        if (argsName.get("delimiter").isEmpty()) {
+            throw new IllegalArgumentException("Delimiter argument missing");
         }
-        if (!source.toFile().isDirectory()) {
-            throw new IllegalArgumentException(String.format("File [%s] is not directory", args[0]));
+        if (argsName.get("filter").isEmpty()) {
+            throw new IllegalArgumentException("Filter missing");
         }
-        Path out = Path.of(args[2]);
+        Path out = Path.of(argsName.get("path"));
         String stdout = "stdout";
-        if (!stdout.equals(args[2]) && !out.toFile().isDirectory()) {
-                throw new IllegalArgumentException(String.format("Out [%s] is incorrect", args[2]));
-            }
+        if (argsName.get("out").isEmpty()) {
+            throw new IllegalArgumentException("Out file missing");
         }
+        if (!out.toFile().exists() && !stdout.equals(argsName.get("out"))) {
+            throw new IllegalArgumentException("Out is not defined correctly");
+        }
+    }
 }
+
 
