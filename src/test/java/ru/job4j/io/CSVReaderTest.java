@@ -1,8 +1,11 @@
 package ru.job4j.io;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.*;
@@ -84,5 +87,34 @@ class CSVReaderTest {
         assertThatThrownBy(() -> CSVReader.handle(argsName))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+
+    @Test
+    void whenStndOut(@TempDir Path folder) throws Exception {
+        String data = String.join(
+                System.lineSeparator(),
+                "name;age;last_name;education",
+                "Tom;20;Smith;Bachelor",
+                "Jack;25;Johnson;Undergraduate",
+                "William;30;Brown;Secondary special"
+        );
+        File file = folder.resolve("source.csv").toFile();
+        ArgsName argsName = ArgsName.of(new String[]{
+                "-path=" + file.getAbsolutePath(),
+                "-delimiter=;",
+                "-out=stdout", "-filter=education,age,last_name"
+        });
+        Files.writeString(file.toPath(), data);
+        String expected = String.join(
+                System.lineSeparator(),
+                "education;age;last_name",
+                "Bachelor;20;Smith",
+                "Undergraduate;25;Johnson",
+                "Secondary special;30;Brown"
+        ).concat(System.lineSeparator()).concat(System.lineSeparator());
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+        CSVReader.handle(argsName);
+        Assertions.assertEquals(expected, output.toString());
+    }
 }
 

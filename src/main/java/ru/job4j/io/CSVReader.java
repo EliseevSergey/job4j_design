@@ -21,7 +21,7 @@ public class CSVReader {
         }
     }
 
-    public static void handle(ArgsName argsName) throws Exception {
+    public static void handle(ArgsName argsName) {
         String delimiter = argsName.get("delimiter");
         File src = new File(argsName.get("path"));
         try {
@@ -36,16 +36,21 @@ public class CSVReader {
             }
             List<Integer> fltrIndex = new ArrayList<>();
             filters.forEach(i -> fltrIndex.add(header.indexOf(i)));
+            String stdout = "stdout";
             try (PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(argsName.get("out"))));
-                Scanner sc = new Scanner(src)) {
-                sc.useDelimiter(System.lineSeparator());
-                StringBuilder sb = new StringBuilder();
-                while (sc.hasNext()) {
-                    String[] line = sc.next().split(";");
-                    fltrIndex.forEach(i -> sb.append(line[i]).append(delimiter));
-                    sb.replace(sb.length() - 1, sb.length(), System.lineSeparator());
+                    Scanner sc = new Scanner(src)) {
+                    sc.useDelimiter(System.lineSeparator());
+                    StringBuilder sb = new StringBuilder();
+                    while (sc.hasNext()) {
+                        String[] line = sc.next().split(delimiter);
+                        fltrIndex.forEach(i -> sb.append(line[i]).append(delimiter));
+                        sb.replace(sb.length() - 1, sb.length(), System.lineSeparator());
+                    }
+                    if (!stdout.equals(argsName.get("out"))) {
+                        pw.write(sb.toString());
+                    } else {
+                        System.out.println(sb);
                 }
-                pw.write(sb.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
