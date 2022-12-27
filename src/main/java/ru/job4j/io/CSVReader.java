@@ -24,27 +24,29 @@ public class CSVReader {
     public static void handle(ArgsName argsName) throws Exception {
         String delimiter = argsName.get("delimiter");
         File src = new File(argsName.get("path"));
-        Scanner input = new Scanner(src);
-        input.useDelimiter(System.lineSeparator());
-        List<String> header = Arrays.stream(input.next().split(delimiter)).toList();
-        Scanner fl = new Scanner(argsName.get("filter"));
-        fl.useDelimiter(",");
-        List<String> filters = new ArrayList<>();
-        while (fl.hasNext()) {
-            filters.add(fl.next());
-        }
-        List<Integer> fltrIndex = new ArrayList<>();
-        filters.forEach(i -> fltrIndex.add(header.indexOf(i)));
-        try (PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(argsName.get("out"))));
-           Scanner sc = new Scanner(src)) {
-            sc.useDelimiter(System.lineSeparator());
-            StringBuilder sb = new StringBuilder();
-            while (sc.hasNext()) {
-                String[] line = sc.next().split(";");
-                fltrIndex.forEach(i -> sb.append(line[i]).append(delimiter));
-                sb.replace(sb.length() - 1, sb.length(), System.lineSeparator());
+        try {
+            Scanner input = new Scanner(src);
+            input.useDelimiter(System.lineSeparator());
+            List<String> header = Arrays.stream(input.next().split(delimiter)).toList();
+            Scanner fl = new Scanner(argsName.get("filter"));
+            fl.useDelimiter(",");
+            List<String> filters = new ArrayList<>();
+            while (fl.hasNext()) {
+                filters.add(fl.next());
+            }
+            List<Integer> fltrIndex = new ArrayList<>();
+            filters.forEach(i -> fltrIndex.add(header.indexOf(i)));
+            try (PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(argsName.get("out"))));
+                Scanner sc = new Scanner(src)) {
+                sc.useDelimiter(System.lineSeparator());
+                StringBuilder sb = new StringBuilder();
+                while (sc.hasNext()) {
+                    String[] line = sc.next().split(";");
+                    fltrIndex.forEach(i -> sb.append(line[i]).append(delimiter));
+                    sb.replace(sb.length() - 1, sb.length(), System.lineSeparator());
                 }
-            pw.write(sb.toString());
+                pw.write(sb.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
