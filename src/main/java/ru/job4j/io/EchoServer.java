@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
@@ -10,9 +11,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServer {
-    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
 
     public static void main(String[] args) {
+        BasicConfigurator.configure();
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
