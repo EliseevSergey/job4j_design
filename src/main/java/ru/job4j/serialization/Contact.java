@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 public class Contact implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(Contact.class.getName());
     private static final long serialVersionUID = 1L;
-    private int zipCode;
+    private String zipCode;
     private String phone;
 
-    public Contact(int zipCode, String phone) {
+    public Contact(String zipCode, String phone) {
         this.zipCode = zipCode;
         this.phone = phone;
     }
@@ -42,7 +42,7 @@ public class Contact implements Serializable {
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
-        final Contact contact = new Contact(188653, "+7921666777");
+        final Contact contact = new Contact("188653", "+7921666777");
         File locationFile = new File("./data/contact.data");
         try (FileOutputStream fos = new FileOutputStream(locationFile);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
