@@ -1,9 +1,17 @@
 package ru.job4j.serialization.json;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+
 public class Cat {
+    @XmlAttribute
     private String name;
+    @XmlAttribute
     private int age;
+    @XmlAttribute
     private String color;
+
+    public Cat() {
+    }
 
     public Cat(String name, int age, String color) {
         this.name = name;
