@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<owner>
+        <surname>Sidorov</surname>
+            <pets>
+                <cat> name="Marsik" age="2" color="Grey"</cat>
+                <cat> name="Pushok" age="1" color="White"</cat>
+            </pets>
+        <age>33</age>
+        <vip>true</vip>
+</owner>
+
