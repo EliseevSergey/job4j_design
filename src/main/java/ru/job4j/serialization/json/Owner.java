@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.StringWriter;
 import java.util.Arrays;
 
@@ -30,6 +33,22 @@ public class Owner {
         this.pets = pets;
         this.age = age;
         this.vip = vip;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Cat[] getPets() {
+        return pets;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public boolean isVip() {
+        return vip;
     }
 
     @Override
@@ -64,5 +83,14 @@ public class Owner {
             xmlPetrov = writer.getBuffer().toString();
             System.out.println(xmlPetrov);
         }
+
+        JSONObject jsonObjectSidorov = new JSONObject();
+        jsonObjectSidorov.put("surname", "Sidorov");
+        JSONArray jsonArrayCats = new JSONArray("[{\"name\":\"Marsik\",\"age\":2,\"color\":\"Grey\"}, {\"name\":\"Pushok\",\"age\":1,\"color\":\"White\"}]");
+        jsonObjectSidorov.put("pets", jsonArrayCats);
+        jsonObjectSidorov.put("age", 33);
+        jsonObjectSidorov.put("vip", true);
+
+        System.out.println("Made directly jsonObject: \n" + jsonObjectSidorov);
     }
 }
