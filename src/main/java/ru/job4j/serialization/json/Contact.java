@@ -23,6 +23,14 @@ public class Contact implements Serializable {
         this.phone = phone;
     }
 
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     @Override
     public String toString() {
         return "Contact{" + "zipCode=" + zipCode

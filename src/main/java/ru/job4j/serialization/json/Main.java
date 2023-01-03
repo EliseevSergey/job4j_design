@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -20,17 +22,17 @@ public class Main {
         try (StringWriter writer = new StringWriter()) {
             marshaller.marshal(person, writer);
             xml = writer.getBuffer().toString();
-            System.out.println(xml);
+            System.out.println("marshalled into XML: \n" + xml);
         }
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
         try (StringReader reader = new StringReader(xml)) {
             Person resurrection = (Person) unmarshaller.unmarshal(reader);
-            System.out.println(resurrection);
+            System.out.println("Unmarshalled from XML: \n" + resurrection);
         }
 
         Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(person));
+        System.out.println("Inputted in Json: \n" + gson.toJson(person));
         String personJson =
                 "{"
                         + "\"sex\":false,"
@@ -43,9 +45,21 @@ public class Main {
                         + "[\"Student\",\"Free\"]"
                         + "}";
         Person personMod = gson.fromJson(personJson, Person.class);
-        System.out.println(personMod);
+        System.out.println("Extracted from Json: \n" + personMod);
+
+        JSONObject jsonContact = new JSONObject("{\"zipCode\":\"188653\", \"phone\":\"8921666777888\"}");
+        List<String> list = List.of("Student", "Free");
+        JSONArray jsonStatuses = new JSONArray(list);
+
+        final Person prsn = new Person(false, 30, new Contact("188653", "11-111"), new String[]{"Worker", "Married"});
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sex", prsn.isSex());
+        jsonObject.put("age", person.getAge());
+        jsonObject.put("contact", jsonContact);
+        jsonObject.put("statuses", jsonStatuses);
+
+        System.out.println("Made directly jsonObject: \n" + jsonObject);
     }
 }
-
 
 

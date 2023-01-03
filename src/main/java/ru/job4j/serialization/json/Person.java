@@ -26,6 +26,18 @@ public class Person {
         this.statuses = statuses;
     }
 
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
     @Override
     public String toString() {
         return "Person{"
@@ -34,5 +46,9 @@ public class Person {
                 + ", contact=" + contact
                 + ", statuses=" + Arrays.toString(statuses)
                 + '}';
+    }
+
+    public boolean isSex() {
+        return this.sex;
     }
 }
