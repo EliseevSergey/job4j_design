@@ -1,5 +1,6 @@
-package ru.job4j.serialization;
+package ru.job4j.serialization.json;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
 import org.apache.log4j.BasicConfigurator;
 import java.io.*;
 import java.util.Objects;
@@ -9,8 +10,13 @@ import org.slf4j.LoggerFactory;
 public class Contact implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(Contact.class.getName());
     private static final long serialVersionUID = 1L;
+    @XmlAttribute
     private String zipCode;
+    @XmlAttribute
     private String phone;
+
+    public Contact() {
+    }
 
     public Contact(String zipCode, String phone) {
         this.zipCode = zipCode;

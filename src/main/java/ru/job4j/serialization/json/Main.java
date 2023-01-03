@@ -2,15 +2,36 @@ package ru.job4j.serialization.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ru.job4j.serialization.Contact;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+
+import java.io.StringReader;
+import java.io.StringWriter;
 
 public class Main {
-    public static void main(String[] args) {
-        final Person person = new Person(false, 30,
+    public static void main(String[] args) throws Exception {
+        Person person = new Person(false, 30,
                 new Contact("188653", "8921666777"), new String[]{"Worker", "Married"});
-        final Gson gson = new GsonBuilder().create();
+        JAXBContext context = JAXBContext.newInstance(Person.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String xml = "";
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(person, writer);
+            xml = writer.getBuffer().toString();
+            System.out.println(xml);
+        }
+
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader reader = new StringReader(xml)) {
+            Person resurrection = (Person) unmarshaller.unmarshal(reader);
+            System.out.println(resurrection);
+        }
+
+        Gson gson = new GsonBuilder().create();
         System.out.println(gson.toJson(person));
-        final String personJson =
+        String personJson =
                 "{"
                         + "\"sex\":false,"
                         + "\"age\":35,"
@@ -21,7 +42,7 @@ public class Main {
                         + "\"statuses\":"
                         + "[\"Student\",\"Free\"]"
                         + "}";
-        final Person personMod = gson.fromJson(personJson, Person.class);
+        Person personMod = gson.fromJson(personJson, Person.class);
         System.out.println(personMod);
     }
 }
