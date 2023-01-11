@@ -13,7 +13,7 @@ public class ResultFile {
                 i++;
             }
         }
-        try (FileOutputStream fos = new FileOutputStream("result11.txt")) {
+        try (FileOutputStream fos = new FileOutputStream("./data/resultTable.txt")) {
             for (String item : bufferString) {
                 fos.write(item.getBytes());
                 fos.write(System.lineSeparator().getBytes());

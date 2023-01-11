@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class LogFilter {
     public static List<String> filter(String file) {
         List<String> listString = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader("./data/log.txt"))) {
             listString = in.lines()
                     .filter(item -> item.contains(" 404 "))
                     .collect(Collectors.toList());
@@ -19,10 +19,7 @@ public class LogFilter {
     }
 
     public static void save(List<String> log, String file) {
-        try (PrintWriter out = new PrintWriter(
-            new BufferedOutputStream(
-                    new FileOutputStream(file)
-            ))) {
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(file)))) {
             for (String str : log) {
                 out.println(str);
             }
@@ -32,10 +29,9 @@ public class LogFilter {
     }
 
     public static void main(String[] args) {
-        LogFilter logFilter = new LogFilter();
-        List<String> log = logFilter.filter("log.txt");
+        List<String> log = filter(".data/log.txt");
         log.forEach(System.out::println);
-        save(log, "404.txt");
+        save(log, "./data/404.txt");
     }
 }
 

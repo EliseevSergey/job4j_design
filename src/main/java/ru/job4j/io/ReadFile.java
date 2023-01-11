@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class ReadFile {
     public static void main(String[] args) {
-        try (FileInputStream in = new FileInputStream("input.txt")) {
+        try (FileInputStream in = new FileInputStream("./data/input.txt")) {
             StringBuilder text = new StringBuilder();
             int read;
             while ((read = in.read()) != -1) {
