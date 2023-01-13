@@ -1,6 +1,5 @@
 package ru.job4j.io;
 
-
 import java.io.Console;
 
 public class ConsoleDem {
