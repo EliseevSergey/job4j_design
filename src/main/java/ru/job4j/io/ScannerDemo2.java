@@ -1,13 +1,14 @@
 package ru.job4j.io;
 
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class ScannerDemo2 {
     public static void main(String[] args) throws IOException {
-        String instr = "Name: Tom Age: 28 ID: 77";
+      /*  String instr = "Name: Tom Age: 28 ID: 77";
         Scanner conin = new Scanner(instr);
         conin.useDelimiter("7");
         conin.findInLine("Age: ");
@@ -21,10 +22,24 @@ public class ScannerDemo2 {
         for (byte b : barray) {
             System.out.println(b);
         }
-        FileInputStream fis = new FileInputStream("./data/textAB.rtf");
-        StringBuilder sb = new StringBuilder();
-        while (fis.read()!=-1)
-        sb.append(fis.read());
-        System.out.println(sb);
+        try (FileReader fileReader = new FileReader("./data/textAB.txt")) {
+            StringBuilder sb = new StringBuilder();
+            int simbolNum = fileReader.read();
+            while (simbolNum != -1) {
+                sb.append(simbolNum);
+                sb.append(System.lineSeparator());
+                simbolNum = fileReader.read();
+            }
+            System.out.println(sb);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        try (FileInputStream fis = new FileInputStream("./data/textAB.txt")) {
+            byte bb = (byte) fis.read();
+            while (bb != -1) {
+                System.out.println(bb);
+                bb = (byte) fis.read();
+            }
+        }
     }
 }
