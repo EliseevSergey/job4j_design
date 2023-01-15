@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,11 +36,22 @@ public class ScannerDemo2 {
             e.printStackTrace();
         }*/
         try (FileInputStream fis = new FileInputStream("./data/textAB.txt")) {
-            byte bb = (byte) fis.read();
+            int bb = fis.read();
+            StringBuilder sb = new StringBuilder();
             while (bb != -1) {
-                System.out.println(bb);
-                bb = (byte) fis.read();
+                sb.append(bb).append(System.lineSeparator());
+                bb = fis.read();
             }
+            System.out.println(sb);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileInputStream("./data/textAB.txt"))) {
+            StringBuilder sbBuf = new StringBuilder();
+            int end = br.readLine();
+            while
+            br.lines();
         }
     }
 }
