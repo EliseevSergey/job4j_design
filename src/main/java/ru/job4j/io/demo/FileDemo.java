@@ -37,7 +37,7 @@ public class FileDemo {
         });
         System.out.println("after TXT");
         Arrays.stream(s).forEach(System.out::println);
-        
+
         Path forAttribute = Path.of("./data/forAttribute");
         Files.createFile(forAttribute);
 
