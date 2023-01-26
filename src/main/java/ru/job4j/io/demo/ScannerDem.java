@@ -1,4 +1,4 @@
-package ru.job4j.io;
+package ru.job4j.io.demo;
 import java.util.Scanner;
 
 public class ScannerDem {

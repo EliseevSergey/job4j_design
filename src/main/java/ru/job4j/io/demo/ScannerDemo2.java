@@ -1,7 +1,8 @@
-package ru.job4j.io;
+package ru.job4j.io.demo;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ScannerDemo2 {
@@ -66,6 +67,24 @@ public class ScannerDemo2 {
             }
 
             System.out.println("Buffered input: " + System.lineSeparator() + sb);
+        }
+
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream ("./data/demoOut.txt")))) {
+            out.println("one more string");
+            out.printf("to be written in out %n");
+            out.printf("format out %S: ", 10);
+            out.printf("today is %tA", new Date());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (PrintWriter out2 = new PrintWriter((new FileWriter ("./data/demoOut2.txt")))) {
+            out2.println("one more string");
+            out2.printf("to be written in out %n");
+            out2.printf("format out %S: ", 10);
+            out2.printf("today is %tA", new Date());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

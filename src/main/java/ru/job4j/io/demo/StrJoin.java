@@ -1,6 +1,5 @@
-package ru.job4j.io;
+package ru.job4j.io.demo;
 
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;

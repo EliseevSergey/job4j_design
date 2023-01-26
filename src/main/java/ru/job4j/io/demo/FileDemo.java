@@ -1,11 +1,14 @@
-package ru.job4j.io;
+package ru.job4j.io.demo;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.*;
 import java.util.Arrays;
 
-public class FileDem {
+public class FileDemo {
     static void p(String str) {
         System.out.println(str);
     }
@@ -35,6 +38,17 @@ public class FileDem {
         System.out.println("after TXT");
         Arrays.stream(s).forEach(System.out::println);
         
+        Path forAttribute = Path.of("./data/forAttribute");
+        Files.createFile(forAttribute);
+
+        BasicFileAttributeView attrView = Files.getFileAttributeView(forAttribute, BasicFileAttributeView.class);
+        System.out.println(attrView.getClass());
+        BasicFileAttributes attributes = attrView.readAttributes();
+        System.out.println(attributes.toString());
+
+        /*BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+        System.out.println(attr.creationTime());
+        System.out.println(attr.size());*/
 
         /*Path src = Paths.get("./data/tobemoved");
         Path trg = Paths.get("./data/logs/tobemoved");
