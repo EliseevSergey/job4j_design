@@ -1,3 +1,0 @@
-String from PW
- PrintStream. Из PrintStream в FileOutputStream
-new line /n

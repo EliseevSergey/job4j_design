@@ -2,8 +2,13 @@ package ru.job4j.io.demo;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.Scanner;
+
+import static java.lang.System.out;
 
 public class ScannerDemo2 {
     public static void main(String[] args) throws IOException {
@@ -12,15 +17,15 @@ public class ScannerDemo2 {
         conin.useDelimiter("7");
         conin.findInLine("Age: ");
         if (conin.hasNext()) {
-            System.out.println(conin.next());
+            out.println(conin.next());
         } else {
-            System.out.println("fail");
+            out.println("fail");
             conin.close();
         }
 
         byte[] barray = "AB".getBytes(Charset.forName("Windows-1252"));
         for (byte b : barray) {
-            System.out.println(b);
+            out.println(b);
         }
 
         try (FileReader fileReader = new FileReader("./data/textAB.txt")) {
@@ -30,7 +35,7 @@ public class ScannerDemo2 {
                 sb.append((char)simbolNum);
                 simbolNum = fileReader.read();
             }
-            System.out.println("FileReader with (char) " + System.lineSeparator() + sb);
+            out.println("FileReader with (char) " + System.lineSeparator() + sb);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +46,7 @@ public class ScannerDemo2 {
                 sb.append(str);
                 sb.append(System.lineSeparator());
             }
-            System.out.println("Buffered Reader: " + sb);
+            out.println("Buffered Reader: " + sb);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +58,7 @@ public class ScannerDemo2 {
                 sb.append(bb).append(System.lineSeparator());
                 bb = fis.read();
             }
-            System.out.println("File input Stream" + System.lineSeparator() + sb);
+            out.println("File input Stream" + System.lineSeparator() + sb);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +71,7 @@ public class ScannerDemo2 {
                 end = bis.read();
             }
 
-            System.out.println("Buffered input: " + System.lineSeparator() + sb);
+            out.println("Buffered input: " + System.lineSeparator() + sb);
         }
 
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream ("./data/demoOut.txt")))) {
@@ -86,5 +91,8 @@ public class ScannerDemo2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Path data = Path.of("./data");
+        DirectoryStream<Path> dirStream = Files.newDirectoryStream(data);
+        dirStream.forEach(System.out::println);
     }
 }

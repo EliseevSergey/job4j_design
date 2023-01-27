@@ -1,3 +1,3 @@
 one more string
 to be written in out 
-format out 10: today is Sunday
+format out 10: today is Friday
