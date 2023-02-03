@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 
 public class ConsoleRead {
     public static void main(String[] args) throws IOException {
-        Console console = System.console();
+        /*Console console = System.console();
         console.readLine("New line to console");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in, Charset.forName("UTF-8")));
         char c;
@@ -19,13 +19,13 @@ public class ConsoleRead {
             str = br.readLine();
             System.out.println(str);
         } while (!str.equals("stop"));
-        System.out.println("str end");
+        System.out.println("str end");*/
 
         PrintWriter pw = new PrintWriter(System.out, true);
         pw.println("Test string: ");
         int i = -7;
         double d = 4.5 - 7;
-        String string ="String";
+        String string = "String";
         pw.println(d);
         pw.println(string);
 
