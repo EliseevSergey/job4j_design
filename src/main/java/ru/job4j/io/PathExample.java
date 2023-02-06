@@ -23,6 +23,6 @@ public class PathExample {
         Path trg = Path.of("./data/trash");
         Path trgIn = Path.of("./data/trash/newNEW.txt");
         Files.createDirectories(trg);
-        Files.move(pathToFile,trgIn);
+        Files.move(pathToFile, trgIn);
     }
 }

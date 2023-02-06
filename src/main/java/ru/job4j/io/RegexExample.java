@@ -33,7 +33,7 @@ public class RegexExample {
         String text4 = "111111";
         Matcher matcher4 = pattern4.matcher(text4);
         while (matcher4.find()) {
-            System.out.println("Найдено совпадение: " + matcher4.group());
+            System.out.println("Найдено совпадение group: " + matcher4.group());
         }
 
         String str = "123+=-456:/789";

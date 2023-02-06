@@ -32,7 +32,7 @@ public class ScannerDemo2 {
             StringBuilder sb = new StringBuilder();
             int simbolNum = fileReader.read();
             while (simbolNum != -1) {
-                sb.append((char)simbolNum);
+                sb.append((char) simbolNum);
                 simbolNum = fileReader.read();
             }
             out.println("FileReader with (char) " + System.lineSeparator() + sb);
@@ -74,7 +74,7 @@ public class ScannerDemo2 {
             out.println("Buffered input: " + System.lineSeparator() + sb);
         }
 
-        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream ("./data/demoOut.txt")))) {
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream("./data/demoOut.txt")))) {
             out.println("one more string");
             out.printf("to be written in out %n");
             out.printf("format out %S: ", 10);
@@ -83,7 +83,7 @@ public class ScannerDemo2 {
             e.printStackTrace();
         }
 
-        try (PrintWriter out2 = new PrintWriter((new FileWriter ("./data/demoOut2.txt")))) {
+        try (PrintWriter out2 = new PrintWriter((new FileWriter("./data/demoOut2.txt")))) {
             out2.println("one more string");
             out2.printf("to be written in out %n");
             out2.printf("format out %S: ", 10);

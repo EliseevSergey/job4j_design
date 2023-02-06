@@ -16,8 +16,7 @@ public class Buffered {
                 BufferedInputStream bis = new BufferedInputStream(new FileInputStream(input.toFile()));
                 FileWriter fw = new FileWriter(input.toFile());
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("./data/outForBuf.txt", true))
-             )
-        {
+        ) {
             fw.write("THIS IS JUST FOR INPUT");
             fw.flush();
             int i;
