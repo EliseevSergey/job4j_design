@@ -16,19 +16,16 @@ public class Finder {
         validation(argsName);
         StringBuilder sb = new StringBuilder();
         List<Path> rsl = new ArrayList<>();
-
         if ("name".equals(argsName.get("t"))) {
             rsl = findByName(Path.of(argsName.get("d")), argsName.get("n"));
         }
-
         if ("regex".equals(argsName.get("t"))) {
             rsl = findByRegEx(Path.of(argsName.get("d")), argsName.get("n"));
         }
-
         if ("mask".equals(argsName.get("t"))) {
-            rsl = findByMask(Path.of(argsName.get("d")), argsName.get("n"));
+            String regExFromMask = argsName.get("n").replace(".", "[.]").replace("*", ".*").replace("?", ".");
+            rsl = findByRegEx(Path.of(argsName.get("d")), regExFromMask);
         }
-
         sb.append(String.format("%s : files were found with [%s] search type with key [%s] in folder [%s] \n",
                 rsl.size(), argsName.get("t"), argsName.get("n"), argsName.get("d")));
         try (PrintWriter pw = new PrintWriter(argsName.get("o"))) {
@@ -53,25 +50,13 @@ public class Finder {
     }
 
     private static List<Path> findByRegEx(Path src, String regEx) {
-        FileVisitorRegEx fvRegEx = new FileVisitorRegEx(regEx);
+        FileVisitorRegExAndMask fvRegEx = new FileVisitorRegExAndMask(regEx);
         try {
             Files.walkFileTree(src, fvRegEx);
         } catch (IOException e) {
             e.printStackTrace();
-
         }
         return fvRegEx.getFind();
-    }
-
-    private static List<Path> findByMask(Path src, String mask) {
-        FileVisitorMask fvMask = new FileVisitorMask(mask);
-        try {
-            Files.walkFileTree(src, fvMask);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        return fvMask.getFind();
     }
 
     private static void validation(ArgsName argsName) {

@@ -1,23 +1,21 @@
 package ru.job4j.io.finder;
 
-import javax.swing.text.MaskFormatter;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileVisitorMask extends SimpleFileVisitor<Path> {
-    private String mask;
+public class FileVisitorRegExAndMask extends SimpleFileVisitor<Path> {
+    private String regEx;
     private List<Path> find = new ArrayList<>();
 
-    public FileVisitorMask(String mask) {
-        this.mask = mask;
+    public FileVisitorRegExAndMask(String regEx) {
+        this.regEx = regEx;
     }
 
     public List<Path> getFind() {
@@ -26,13 +24,9 @@ public class FileVisitorMask extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-        try {
-            MaskFormatter formatter = new MaskFormatter(mask);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (path.getFileName().toString().matches(mask)) {
+        Pattern regExPat = Pattern.compile(regEx);
+        Matcher regExMatch = regExPat.matcher(path.getFileName().toString());
+        if (regExMatch.find()) {
             find.add(path);
         }
         return super.visitFile(path, attrs);
