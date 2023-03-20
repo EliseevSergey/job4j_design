@@ -68,7 +68,7 @@ class ConfigTest {
     }
 
     @Test
-    void whenKeyIsOutOfRestrictedSimbols() {
+    void whenKeyIsOutOfRestrictedSymbols() {
         String path = "./data/WrongKey.properties";
         Config cfg = new Config(path);
         System.out.println(cfg);
