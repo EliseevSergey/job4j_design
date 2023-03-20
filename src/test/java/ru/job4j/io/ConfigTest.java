@@ -19,7 +19,7 @@ class ConfigTest {
         Config cfg = new Config(path);
         System.out.println(cfg);
         cfg.load();
-        assertThat(cfg.value("hibernate.connection.password")).isEqualTo("password");
+        assertThat(cfg.value("password")).isEqualTo("password");
     }
 
     @Test
@@ -65,5 +65,14 @@ class ConfigTest {
         System.out.println(cfg);
         cfg.load();
         assertThat(cfg.value("lastKeyInFile")).isEqualTo("lastValue");
+    }
+
+    @Test
+    void whenKeyIsOutOfRestrictedSimbols() {
+        String path = "./data/WrongKey.properties";
+        Config cfg = new Config(path);
+        System.out.println(cfg);
+        assertThatThrownBy(cfg::load)
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

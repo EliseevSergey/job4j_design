@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Config {
     private final String path;
@@ -30,7 +32,14 @@ public class Config {
                 if (array[0].isBlank() || array[1].isBlank()) {
                     throw new IllegalArgumentException(String.format("Line[%s] has no key or value", str));
                 }
-                values.put(array[0], array[1]);
+                Pattern pattern = Pattern.compile("\\w+$");
+                Matcher matcher = pattern.matcher(array[0]);
+                if (!matcher.find()) {
+                    throw new IllegalArgumentException(String.format("Key[%s] characters are out of [a-zA-Z0-9_]", array[0]));
+                } else {
+                    String key = matcher.group(0);
+                    values.put(key, array[1]);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
