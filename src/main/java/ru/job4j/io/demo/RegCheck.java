@@ -13,8 +13,5 @@ public class RegCheck {
         } else {
             throw new IllegalArgumentException(String.format("Key[%s] characters are out of [a-zA-Z0-9_]", str));
         }
-        //String key = str.split("\\w+$")[0];
-        //System.out.println(key);
-
     }
 }
