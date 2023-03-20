@@ -1,6 +1,11 @@
 package ru.job4j.jdbc;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import java.util.StringJoiner;
 
@@ -8,29 +13,59 @@ public class TableEditor implements AutoCloseable {
     private Connection connection;
     private Properties properties;
 
-    public TableEditor(Properties properties) {
+    public TableEditor(Properties properties) throws SQLException {
         this.properties = properties;
-        //initConnectin();
+        this.connection = initConnection();
     }
 
-    private void initConnection() {
-        connection = null;
+    private Connection initConnection() throws SQLException {
+        String url = properties.getProperty("url");
+        String login = properties.getProperty("username");
+        String password = properties.getProperty("password");
+       return DriverManager.getConnection(url, login, password);
     }
 
-    public void createTable(String tableName) {
+    public void createTable(String tableName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "create table if not exists %s (%s, %s);",
+                    tableName,
+                    "id serial primary key",
+                    "name text");
+            statement.execute(sql);
+        }
     }
-
-    public void dropTable(String tableName) {
+    public void dropTable(String tableName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "drop table %s",
+                    tableName);
+            statement.execute(sql);
+        }
     }
-    public void addColumn(String tableName, String columnName, String type) {
-
+    public void addColumn(String tableName, String columnName, String type) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "alter table %s add column %s %s",
+                    tableName, columnName, type);
+            statement.execute(sql);
+        }
     }
-
-    public  void dropColumn(String tableName, String columnName) {
-
+    public void dropColumn(String tableName, String columnName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "alter table %s drop column %s",
+                    tableName, columnName);
+            statement.execute(sql);
+        }
     }
-    public void renameColumn(String tableName, String columnName, String newColumnName){
-
+    public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "alter table %s rename column %s to %s",
+                    tableName, columnName, newColumnName);
+            statement.execute(sql);
+        }
     }
 
     public String getTableScheme(String tableName) throws Exception {
@@ -59,7 +94,24 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        Properties config = new Properties();
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
+            config.load(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        TableEditor te = new TableEditor(config);
+        te.createTable("from_jdbc");
+        System.out.println(te.getTableScheme("from_jdbc"));
+        te.dropTable("from_jdbc");
+        te.createTable("from_jdbc");
+        System.out.println(te.getTableScheme("from_jdbc"));
+        te.addColumn("from_jdbc", "added", "TEXT");
+        System.out.println(te.getTableScheme("from_jdbc"));
+        te.dropColumn("from_jdbc", "added");
+        System.out.println(te.getTableScheme("from_jdbc"));
+        te.renameColumn("from_jdbc", "name", "nickname");
+        System.out.println(te.getTableScheme("from_jdbc"));
     }
 }
