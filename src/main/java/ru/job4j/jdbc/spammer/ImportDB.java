@@ -22,9 +22,10 @@ public class ImportDB {
 
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
-        /*try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            *//* rd.lines().forEach(...); *//*
-        }*/
+        try (BufferedReader rd = new BufferedReader(new FileReader("./data/spamList.txt"))) {
+             rd.lines()
+                     .forEach(str -> str.split(";", 1));
+        }
         return users;
     }
 
