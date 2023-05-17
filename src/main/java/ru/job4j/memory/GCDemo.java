@@ -1,4 +1,4 @@
-package ru.job4j.mem;
+package ru.job4j.memory;
 
 public class GCDemo {
     private static final long KB = 1000;

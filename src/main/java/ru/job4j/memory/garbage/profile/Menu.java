@@ -1,4 +1,4 @@
-package ru.job4j.mem.garbage.profile;
+package ru.job4j.memory.garbage.profile;
 
 import java.time.LocalTime;
 import java.util.Random;

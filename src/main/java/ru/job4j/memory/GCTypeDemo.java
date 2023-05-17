@@ -1,4 +1,4 @@
-package ru.job4j.mem;
+package ru.job4j.memory;
 
 import java.util.Random;
 
