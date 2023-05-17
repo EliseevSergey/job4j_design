@@ -1,4 +1,4 @@
-package ru.job4j.memory;
+package ru.job4j.memo;
 
 public class Example {
     public static void main(String[] args) {

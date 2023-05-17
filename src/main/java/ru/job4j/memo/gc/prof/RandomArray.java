@@ -1,4 +1,4 @@
-package ru.job4j.memory.gc.prof;
+package ru.job4j.memo.gc.prof;
 
 import java.util.Random;
 
