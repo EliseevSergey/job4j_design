@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.springframework.org/schema/beans" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ref" type="bean:refType" xmlns:bean="http://www.springframework.org/schema/beans"/>
+  <xs:element name="beans" type="bean:beansType" xmlns:bean="http://www.springframework.org/schema/beans"/>
+  <xs:complexType name="refType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="bean" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="arrayType">
+    <xs:sequence>
+      <xs:element ref="util:constant" maxOccurs="unbounded" minOccurs="0" xmlns:util="http://www.springframework.org/schema/util"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="propertyType">
+    <xs:sequence>
+      <xs:element type="bean:arrayType" name="array" minOccurs="0" xmlns:bean="http://www.springframework.org/schema/beans"/>
+      <xs:element type="bean:beanType" name="bean" minOccurs="0" xmlns:bean="http://www.springframework.org/schema/beans"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="beanType">
+    <xs:sequence>
+      <xs:element type="bean:propertyType" name="property" maxOccurs="unbounded" minOccurs="0" xmlns:bean="http://www.springframework.org/schema/beans"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="class" use="optional"/>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="beansType">
+    <xs:sequence>
+      <xs:element ref="jax:server" xmlns:jax="http://cxf.apache.org/jaxrs"/>
+      <xs:element type="bean:beanType" name="bean" xmlns:bean="http://www.springframework.org/schema/beans"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

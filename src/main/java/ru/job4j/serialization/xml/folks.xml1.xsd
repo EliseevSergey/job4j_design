@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.springframework.org/schema/util" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="constant" type="util:constantType" xmlns:util="http://www.springframework.org/schema/util"/>
+  <xs:complexType name="constantType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="static-field" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>

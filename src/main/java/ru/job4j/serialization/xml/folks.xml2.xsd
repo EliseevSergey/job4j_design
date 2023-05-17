@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cxf.apache.org/jaxrs" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="server" type="jax:serverType" xmlns:jax="http://cxf.apache.org/jaxrs"/>
+  <xs:complexType name="serviceBeansType">
+    <xs:sequence>
+      <xs:element ref="bean:ref" xmlns:bean="http://www.springframework.org/schema/beans"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="providersType">
+    <xs:sequence>
+      <xs:element ref="bean:ref" xmlns:bean="http://www.springframework.org/schema/beans"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="serverType">
+    <xs:sequence>
+      <xs:element type="jax:serviceBeansType" name="serviceBeans" xmlns:jax="http://cxf.apache.org/jaxrs"/>
+      <xs:element type="jax:providersType" name="providers" xmlns:jax="http://cxf.apache.org/jaxrs"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+    <xs:attribute type="xs:string" name="serviceClass"/>
+    <xs:attribute type="xs:string" name="address"/>
+  </xs:complexType>
+</xs:schema>
