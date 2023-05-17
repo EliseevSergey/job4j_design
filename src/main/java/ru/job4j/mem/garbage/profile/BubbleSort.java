@@ -1,4 +1,4 @@
-package ru.job4j.memo.gc.prof;
+package ru.job4j.mem.garbage.profile;
 
 public class BubbleSort implements Sort {
 
