@@ -18,9 +18,7 @@ public class Emulator {
     public static final String SET = "input path to cached directory: ";
     public static final String GET = "input file name: ";
     public static final String LOAD = "input file name: ";
-
-
-    public static final String EXIT = "Shout down.";
+    public static final String EXIT = "exit.";
 
     private static void start(Scanner scanner) {
         System.out.println(SET);
@@ -43,7 +41,6 @@ public class Emulator {
                 if (GET_FILE == userChoice) {
                     System.out.println(GET);
                     String file = scanner.nextLine();
-                    //txtCache.get(file);
                     System.out.println(txtCache.get(file));
                 }
                 if (QUIT == userChoice) {
