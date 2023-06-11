@@ -6,7 +6,7 @@ import java.lang.ref.SoftReference;
 
 public class SoftDemo {
     public static void main(String[] args) {
-        //example3();
+        example3();
         example4();
     }
 
