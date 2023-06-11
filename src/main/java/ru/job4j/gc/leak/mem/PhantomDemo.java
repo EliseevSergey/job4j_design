@@ -1,13 +1,11 @@
-package ru.job4j.gc.leak.outOfMem;
+package ru.job4j.gc.leak.mem;
 
 import java.util.concurrent.TimeUnit;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.ReferenceQueue;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.TimeUnit;
 
 public class PhantomDemo {
     private static class MyPhantom extends PhantomReference<String> {

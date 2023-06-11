@@ -1,4 +1,4 @@
-package ru.job4j.gc.leak.outOfMem;
+package ru.job4j.gc.leak.mem;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;

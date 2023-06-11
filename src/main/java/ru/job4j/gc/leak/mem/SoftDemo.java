@@ -1,8 +1,7 @@
-package ru.job4j.gc.leak.outOfMem;
+package ru.job4j.gc.leak.mem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.lang.ref.SoftReference;
 
 public class SoftDemo {
