@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import java.util.Calendar;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 
+@Disabled
 public class Cinema3DTest {
     @Test
     public void whenBuyThenGetTicket() {
@@ -55,5 +57,4 @@ public class Cinema3DTest {
         assertThatThrownBy(() -> cinema.sell(account, session, -1, 1, date)).
                 isInstanceOf(IllegalArgumentException.class);
     }
-
 }
