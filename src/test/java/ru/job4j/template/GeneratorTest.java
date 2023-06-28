@@ -9,14 +9,10 @@ import org.junit.jupiter.api.Disabled;
 
 @Disabled
 public class GeneratorTest {
+    private TextGenerator textGenerator = new TextGenerator();
+
     @Test
     public void whenInput() {
-        Generator generator = new Generator() {
-            @Override
-            public String producer(String template, Map<String, String> args) {
-                return null;
-            }
-        };
         String template = "I am a ${name}, Who are ${subject}? ";
         Map<String, String> in = new Map<>() {
             @Override
@@ -44,7 +40,7 @@ public class GeneratorTest {
                 return null;
             }
         };
-        assertEquals("I am a Petr Arsentev, Who are you? ", generator.producer(template, in));
+        assertEquals("I am a Petr Arsentev, Who are you? ", textGenerator.producer(template, in));
     }
 
     @Test
@@ -77,25 +73,13 @@ public class GeneratorTest {
             }
         };
         in.put("name", "Petr Arsentev");
-        Generator generator = new Generator() {
-            @Override
-            public String producer(String template, Map<String, String> args) {
-                return null;
-            }
-        };
-        assertThatThrownBy(() -> generator.producer(template, in))
+        assertThatThrownBy(() -> textGenerator.producer(template, in))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(String.format("Unknown key in template [%s] ", template));
     }
 
     @Test
     public  void whenUselessKeyInMapThenExeption() {
-        Generator generator = new Generator() {
-            @Override
-            public String producer(String template, Map<String, String> args) {
-                return null;
-            }
-        };
         String template = "I am a ${name}, Who are ${subject}? ";
         Map<String, String> in = new Map<>() {
             @Override
@@ -126,7 +110,7 @@ public class GeneratorTest {
         in.put("name", "Petr Arsentev");
         in.put("subject", "you");
         in.put("company", "Big Bro Company");
-        assertThatThrownBy(() -> generator.producer(template, in))
+        assertThatThrownBy(() -> textGenerator.producer(template, in))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(String.format("Value [%s] was not used", in.get("company")));
     }
