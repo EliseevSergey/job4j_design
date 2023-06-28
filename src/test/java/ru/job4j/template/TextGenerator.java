@@ -1,6 +1,6 @@
 package ru.job4j.template;
 
-import ru.job4j.map.Map;
+import java.util.Map;
 
 public class TextGenerator implements Generator {
     @Override

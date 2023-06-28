@@ -1,8 +1,8 @@
 package ru.job4j.template;
 
 import org.junit.jupiter.api.Test;
-import ru.job4j.map.Map;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
@@ -14,64 +14,15 @@ public class GeneratorTest {
     @Test
     public void whenInput() {
         String template = "I am a ${name}, Who are ${subject}? ";
-        Map<String, String> in = new Map<>() {
-            @Override
-            public boolean put(String key, String value) {
-                return false;
-            }
-
-            @Override
-            public String get(String key) {
-                return null;
-            }
-
-            @Override
-            public boolean remove(String key) {
-                return false;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public Iterator<String> iterator() {
-                return null;
-            }
-        };
+        Map<String, String> in = new HashMap<>();
+        in.put("name", "Petr Arsentev");
         assertEquals("I am a Petr Arsentev, Who are you? ", textGenerator.producer(template, in));
     }
 
     @Test
     public  void whenNoKeyInMapThenExeption() {
         String template = "Hello ${name}, on behalf of ${unknownKey} side I'm glad to inform you. ";
-        Map<String, String> in = new Map<>() {
-            @Override
-            public boolean put(String key, String value) {
-                return false;
-            }
-
-            @Override
-            public String get(String key) {
-                return null;
-            }
-
-            @Override
-            public boolean remove(String key) {
-                return false;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public Iterator<String> iterator() {
-                return null;
-            }
-        };
+        Map<String, String> in = new HashMap<>();
         in.put("name", "Petr Arsentev");
         assertThatThrownBy(() -> textGenerator.producer(template, in))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -81,32 +32,7 @@ public class GeneratorTest {
     @Test
     public  void whenUselessKeyInMapThenExeption() {
         String template = "I am a ${name}, Who are ${subject}? ";
-        Map<String, String> in = new Map<>() {
-            @Override
-            public boolean put(String key, String value) {
-                return false;
-            }
-
-            @Override
-            public String get(String key) {
-                return null;
-            }
-
-            @Override
-            public boolean remove(String key) {
-                return false;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public Iterator<String> iterator() {
-                return null;
-            }
-        };
+        Map<String, String> in = new HashMap<>();
         in.put("name", "Petr Arsentev");
         in.put("subject", "you");
         in.put("company", "Big Bro Company");
