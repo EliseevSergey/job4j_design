@@ -11,7 +11,6 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReportCSVTest {
-
     @Test
     void whenCSV() {
         MemStore store = new MemStore();

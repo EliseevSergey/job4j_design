@@ -7,7 +7,6 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReportHRTest {
-
     @Test
     void whenDescendingOrder() {
         MemStore store = new MemStore();

@@ -1,15 +1,20 @@
 package ru.job4j.ood.srp.model;
 
+import jakarta.xml.bind.annotation.XmlType;
+
 import java.util.Calendar;
 import java.util.Objects;
 
+@XmlType(propOrder = {"name", "hired", "fired", "salary"})
+
 public class Employee {
+
     private String name;
     private Calendar hired;
     private Calendar fired;
     private double salary;
 
-        public Employee(String name, Calendar hired, Calendar fired, double salary) {
+    public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;
         this.hired = hired;
         this.fired = fired;
