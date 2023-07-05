@@ -1,4 +1,4 @@
-package ru.job4j.ood.lsp.demo;
+package ru.job4j.ood.lsp.example;
 
 public class LittleSister extends BiggerSister {
     public LittleSister(int age) {
