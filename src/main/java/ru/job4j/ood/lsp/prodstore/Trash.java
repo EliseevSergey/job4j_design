@@ -16,8 +16,7 @@ public class Trash extends AbstractStore {
     @Override
     public boolean accept(Food food) {
         boolean rsl = false;
-        float fresh  = ControlQuality.fresh(food);
-        if (fresh >= 1.0f) {
+        if (food.getFreshLevel() >= trash) {
             rsl = true;
         }
         return rsl;

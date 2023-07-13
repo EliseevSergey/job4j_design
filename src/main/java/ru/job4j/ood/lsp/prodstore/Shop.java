@@ -16,10 +16,10 @@ public class Shop extends AbstractStore {
     @Override
     public boolean accept(Food food) {
         boolean rsl = false;
-        float fresh = ControlQuality.fresh(food);
-        if ((fresh >= 0.25f) && (fresh < 1.0f)) {
+        float fresh = food.getFreshLevel();
+        if ((fresh >= warehouse) && (fresh < trash)) {
             rsl = true;
-            if (fresh >= 0.75f) {
+            if (fresh >= shopDiscount) {
                 food.setPrice(food.getPrice() * (100 - food.getDiscount()) / 100);
             }
         }

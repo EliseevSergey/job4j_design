@@ -9,6 +9,15 @@ public class Food {
     private Calendar expiryDate;
     private double price;
     private int discount;
+    private float freshLevel;
+
+    public Food(String name, Calendar createDate, Calendar expiryDate, double price, int discount) {
+        this.name = name;
+        this.createDate = createDate;
+        this.expiryDate = expiryDate;
+        this.price = price;
+        this.discount = discount;
+    }
 
     public String getName() {
         return name;
@@ -50,13 +59,15 @@ public class Food {
         this.discount = discount;
     }
 
-    public Food(String name, Calendar createDate, Calendar expiryDate, double price, int discount) {
-        this.name = name;
-        this.createDate = createDate;
-        this.expiryDate = expiryDate;
-        this.price = price;
-        this.discount = discount;
+    public void setFreshLevel(float level) {
+        this.freshLevel = level;
     }
+
+    public float getFreshLevel() {
+        return freshLevel;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -85,6 +96,7 @@ public class Food {
                 + ", expiryDate=" + expiryDate
                 + ", price=" + price
                 + ", discount=" + discount
+                + ", freshLevel=" + freshLevel
                 + '}';
     }
 }

@@ -13,11 +13,9 @@ public class Warehouse extends AbstractStore {
         return list.stream().filter(filter).collect(Collectors.toList());
     }
 
-    @Override
     public boolean accept(Food food) {
         boolean rsl = false;
-        float fresh  = ControlQuality.fresh(food);
-        if (fresh < 0.25) {
+        if (food.getFreshLevel() < warehouse) {
             rsl = true;
         }
         return rsl;
@@ -27,4 +25,5 @@ public class Warehouse extends AbstractStore {
     public void add(Food food) {
         list.add(food);
     }
+
 }
