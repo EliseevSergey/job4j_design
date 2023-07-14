@@ -2,8 +2,6 @@ package ru.job4j.ood.lsp.prodstore;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -36,33 +34,25 @@ class ControlQualityTest {
 
         goods = List.of(milkToWarehouse, potatoNoDiscount, meatToTrash, fishToShopDiscount);
         qc.distribute(goods, baseDate);
-        System.out.println("good size " + goods.size());
-        System.out.println("storages size " + storages.size());
         System.out.println();
-        System.out.println("Ниже лист товаров на складе");
+        System.out.println("Лист товаров на складе");
         storages.get(0)
                 .findBy(t -> true)
                 .stream()
                 .forEach(f -> System.out.println(f.getName()));
         System.out.println();
-
-        System.out.println("Ниже лист товаров в магазине");
+        System.out.println("Лист товаров в магазине");
         storages.get(1)
                 .findBy(t -> true)
                 .stream()
                 .forEach(f -> System.out.println(f.getName()));
         System.out.println();
-        System.out.println("Ниже лист товаров в мусорке");
+        System.out.println("Лист товаров в мусорке");
         storages.get(2)
                 .findBy(t -> true)
                 .stream()
                 .forEach(f -> System.out.println(f.getName()));
         System.out.println();
-
-
-        System.out.println("Ниже склады");
-        storages.stream()
-                .forEach(f -> System.out.println(f.getClass()));
     }
 
     @Test

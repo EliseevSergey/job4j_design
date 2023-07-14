@@ -12,7 +12,6 @@ public class Fresh {
             level = 1f;
         }
         food.setFreshLevel(level);
-        System.out.printf("%s, FreshCalc has been called: %s %n", food.getName(), food.getFreshLevel());
     }
 
     private static double nanoGet(Calendar calendar) {
