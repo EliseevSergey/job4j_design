@@ -1,0 +1,12 @@
+<<Vehicle>>
+void park(Parking parking);
+void unpark(Parking parking);
+
+Две реализации Car Truck
+
+<<ParkingSlot>>
+boolean free();
+
+Две реализации CarSlot TruckSlot
+
+Класс park
