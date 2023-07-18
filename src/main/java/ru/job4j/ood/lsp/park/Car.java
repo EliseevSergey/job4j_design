@@ -7,10 +7,9 @@ public class Car extends AbstractVehicle {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "size=" + size +
-                ", parkStatus=" + parkStatus +
-                ", num='" + num + '\'' +
-                '}';
+        return "Car{"
+                + "size=" + size
+                + ", parkStatus=" + parkStatus
+                + ", num='" + num + '\'' + '}';
     }
 }

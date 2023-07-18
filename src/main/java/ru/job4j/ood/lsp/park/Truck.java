@@ -8,10 +8,8 @@ public class Truck extends AbstractVehicle {
 
     @Override
     public String toString() {
-        return "Truck{" +
-                "size=" + size +
-                ", parkStatus=" + parkStatus +
-                ", num='" + num + '\'' +
-                '}';
+        return "Truck{" + "size=" + size
+                + ", parkStatus=" + parkStatus
+                + ", num='" + num + '\'' + '}';
     }
 }
