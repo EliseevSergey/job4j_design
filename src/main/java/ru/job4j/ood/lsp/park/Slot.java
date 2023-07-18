@@ -1,11 +1,9 @@
 package ru.job4j.ood.lsp.park;
 
 public interface Slot {
-    boolean getFreeStatus();
-
-    void setFreeStatus(boolean freeStatus);
-
     boolean getTruckType();
+
+    void setTruckType(boolean truckType);
 
     boolean acceptVehicle(Vehicle vehicle);
 

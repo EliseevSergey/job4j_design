@@ -2,7 +2,6 @@ package ru.job4j.ood.lsp.park;
 
 public abstract class AbstractSlot implements Slot {
     protected boolean truckType;
-    protected boolean freeStatus;
     protected Vehicle content;
 
     @Override
@@ -11,8 +10,8 @@ public abstract class AbstractSlot implements Slot {
     }
 
     @Override
-    public boolean getFreeStatus() {
-        return freeStatus;
+    public void setTruckType(boolean truckType) {
+        this.truckType = truckType;
     }
 
     @Override
@@ -26,20 +25,21 @@ public abstract class AbstractSlot implements Slot {
     }
 
     @Override
-    public void setFreeStatus(boolean freeStatus) {
-    }
-
-    @Override
     public boolean acceptVehicle(Vehicle vehicle) {
-        boolean rsl = vehicle.getSize() == 1 && !truckType;
-        if (vehicle.getSize() == 1 && truckType) {
-            rsl = false;
+        boolean rsl = false;
+        if (content == null) {
+            if (vehicle.getSize() == 1 && !truckType) {
+                rsl = true;
             }
-        if (vehicle.getSize() > 1 && !truckType) {
-            rsl = false;
-        }
-        if (vehicle.getSize() > 1 && truckType) {
-            rsl = true;
+            if (vehicle.getSize() == 1 && truckType) {
+                rsl = false;
+            }
+            if (vehicle.getSize() > 1 && !truckType) {
+                rsl = false;
+            }
+            if (vehicle.getSize() > 1 && truckType) {
+                rsl = true;
+            }
         }
         return rsl;
     }
