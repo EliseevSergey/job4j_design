@@ -59,7 +59,7 @@ public class SimpleMenuTest {
         System.setOut(new PrintStream(output));
         MenuPrinter menuPrinter = new Printer();
         menuPrinter.print(menu);
+        System.setOut(System.out);
         assertEquals(expected, output.toString());
-        System.setOut(null);
     }
 }
