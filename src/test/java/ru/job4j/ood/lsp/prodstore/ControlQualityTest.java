@@ -39,19 +39,19 @@ class ControlQualityTest {
         storages.get(0)
                 .findBy(t -> true)
                 .stream()
-                .forEach(f -> System.out.println(f.getName()));
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
         System.out.println();
         System.out.println("Лист товаров в магазине");
         storages.get(1)
                 .findBy(t -> true)
                 .stream()
-                .forEach(f -> System.out.println(f.getName()));
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
         System.out.println();
         System.out.println("Лист товаров в мусорке");
         storages.get(2)
                 .findBy(t -> true)
                 .stream()
-                .forEach(f -> System.out.println(f.getName()));
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
         System.out.println();
     }
 
@@ -85,5 +85,37 @@ class ControlQualityTest {
                 findBy(f -> f.getName().equals("FishToDiscount")).get(0).getPrice();
         Food fishToShopDiscountExpected = goods.get(0);
         assertEquals(70D, priceDownRsl);
+    }
+
+    @Test
+    void resortMilkRemoveFromWhtoShop() {
+        Calendar newBaseDate = new GregorianCalendar(2023, 7, 11);
+        qc.resort(newBaseDate);
+        System.out.println(storages.get(1));
+        Food milkRsl = storages.get(1).
+                findBy(f -> f.getName().equals("MilkToWh")).get(0);
+        Food milkExpected = goods.get(0);
+        assertEquals(milkExpected, milkRsl);
+        assertEquals(0, storages.get(0).findBy(f -> f.getName().equals("MilkToWh")).size());
+
+        System.out.println("-=After RESORT=-");
+        System.out.println("Лист товаров на складе");
+        storages.get(0)
+                .findBy(t -> true)
+                .stream()
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
+        System.out.println();
+        System.out.println("Лист товаров в магазине");
+        storages.get(1)
+                .findBy(t -> true)
+                .stream()
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
+        System.out.println();
+        System.out.println("Лист товаров в мусорке");
+        storages.get(2)
+                .findBy(t -> true)
+                .stream()
+                .forEach(f -> System.out.printf("%s .FRESH:  %s %n", f.getName(), f.getFreshLevel()));
+        System.out.println();
     }
 }

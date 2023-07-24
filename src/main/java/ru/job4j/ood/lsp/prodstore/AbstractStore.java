@@ -1,6 +1,7 @@
 package ru.job4j.ood.lsp.prodstore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,4 +24,7 @@ public abstract class AbstractStore implements Store {
     public void add(Food food) {
         list.add(food);
     }
+
+    @Override
+    public abstract List<Food> selfCheck(Calendar baseDate);
 }

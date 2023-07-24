@@ -1,5 +1,6 @@
 package ru.job4j.ood.lsp.prodstore;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +21,14 @@ public class ControlQuality {
                 }
             }
         }
+    }
+
+    public void resort(Calendar baseDate) {
+        List<Food> rejectedFromAllStores = new ArrayList<>();
+        for (Store st : storages) {
+            rejectedFromAllStores.addAll(st.selfCheck(baseDate));
+        }
+        distribute(rejectedFromAllStores, baseDate);
     }
 }
 
