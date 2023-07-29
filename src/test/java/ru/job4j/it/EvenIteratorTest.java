@@ -12,7 +12,7 @@ public class EvenIteratorTest {
 
     @Before
     public void setUp() {
-        it = new EvenNumbersIterator(new int[] {1, 3, 2, 3, 4, 5, 6, 7});
+        it = new EvenNumbersIterator(new int[] {1, -3, 3, 2, 3, 4, 5, 6, 7});
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -71,7 +71,7 @@ public class EvenIteratorTest {
 
     @Test
     public void forEachRemain() {
-        int[] in = new int[]{6, 6, 6};
+        int[] in = new int[]{6, 8, 10};
         it = new EvenNumbersIterator(in);
         it.forEachRemaining(System.out::println);
     }
