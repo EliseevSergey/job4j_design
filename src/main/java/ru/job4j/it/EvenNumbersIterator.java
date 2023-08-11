@@ -32,13 +32,16 @@ public class EvenNumbersIterator implements Iterator {
             throw new NoSuchElementException();
         }
         int index = nextEvenIndex;
+        int before = nextEvenIndex;
         while (index++ < data.length) {
             if (data[index] % 2 == 0) {
                 nextEvenIndex = index;
                 break;
             }
         }
-
+        if (before == nextEvenIndex) {
+            throw new NoSuchElementException();
+        }
         return data[nextEvenIndex];
     }
 
