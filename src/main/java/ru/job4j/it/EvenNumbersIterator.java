@@ -7,7 +7,8 @@ import java.util.function.Consumer;
 
 public class EvenNumbersIterator implements Iterator {
     private final int[] data;
-    private int nextEvenIndex = -1;
+    private int nextEvenIndex = 0;
+    private int[] evens;
 
     public EvenNumbersIterator(int[] data) {
         this.data = data;
@@ -15,34 +16,20 @@ public class EvenNumbersIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        int index = nextEvenIndex;
-        while (index++ < data.length - 1) {
-            if (data[index] % 2 == 0) {
-                rsl = true;
-                break;
+     int index = nextEvenIndex;
+        while (index < data.length && data[index] % 2 == 0) {
+            index++;
+
             }
+        return index < data.length;
         }
-        return rsl;
-    }
 
     @Override
     public Integer next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        int index = nextEvenIndex;
-        int before = nextEvenIndex;
-        while (index++ < data.length) {
-            if (data[index] % 2 == 0) {
-                nextEvenIndex = index;
-                break;
-            }
-        }
-        if (before == nextEvenIndex) {
-            throw new NoSuchElementException();
-        }
-        return data[nextEvenIndex];
+        return data[nextEvenIndex++];
     }
 
     @Override
@@ -55,4 +42,5 @@ public class EvenNumbersIterator implements Iterator {
     public void forEachRemaining(Consumer action) {
         Iterator.super.forEachRemaining(action);
     }
+
 }

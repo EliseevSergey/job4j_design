@@ -9,10 +9,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EvenIteratorTest {
     private Iterator<Integer> it;
+    private Iterator<Integer> evens;
 
     @Before
     public void setUp() {
         it = new EvenNumbersIterator(new int[] {1, -3, 3, 2, 3, 4, 5, 6, 7});
+        evens = new EvenNumbersIterator(new int[] {2, 4, 6, 8, 10, 12, 14, 16, 18});
+    }
+
+    @Test
+    public void onlyEven() {
+        assertThat(evens.hasNext(), is(true));
+        assertThat(evens.hasNext(), is(true));
+        assertThat(evens.hasNext(), is(true));
+        assertThat(evens.hasNext(), is(true));
+        assertThat(evens.hasNext(), is(true));
+        assertThat(evens.next(), is(2));
+        assertThat(evens.next(), is(4));
+        assertThat(evens.next(), is(6));
+        assertThat(evens.next(), is(8));
+        assertThat(evens.next(), is(10));
     }
 
     @Test(expected = NoSuchElementException.class)
