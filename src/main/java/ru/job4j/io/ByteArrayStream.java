@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ByteArrayStream {
     public static void main(String[] args) {
         byte[] bytes = new byte[]{33, 'j', 'a', 'v', 'a'};
-        ByteArrayInputStream bais = new ByteArrayInputStream(bytes, 2, 3);
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes, 0, 3);
         int data;
         while ((data = bais.read()) != -1) {
             System.out.println(String.format("byte %s = simbol %s", data, (char) data));
